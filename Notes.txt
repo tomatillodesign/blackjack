@@ -1,0 +1,28 @@
+Beers' Basic Blackjack JS
+
+
+//vars
+cash = money to bet, starts at 1,000
+bet = how much is bet on the hand, min = 2, max = 500
+teachingMode = on off toggle, if on, then show player all of the cards that have been used and those left in the deck
+
+deck = regular deck of cards
+
+playerCardA = first card, face up
+playerCardB = second card, face up
+playerScore = score total
+
+houseCardA = first card, face up
+houseCardB = second card, face down (ie hidden)
+houseScore = score total
+
+
+
+Program Actions
+1. Place bet
+2. Check for naturals
+3. Play - Player decides if to Hit and when to Stand
+4. Dealer's Play - dealer hits according to rules
+5. Announce the cards and settle up
+
+-----

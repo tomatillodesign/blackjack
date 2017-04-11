@@ -1,0 +1,92 @@
+body {
+  background: #efefef;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  background: #0066cc;
+    background: -moz-linear-gradient(45deg, rgba(0,102,204,1) 0%, rgba(102,199,214,1) 100%);
+    background: -webkit-linear-gradient(45deg, rgba(0,102,204,1) 0%,rgba(102,199,214,1) 100%);
+    background: linear-gradient(45deg, rgba(0,102,204,1) 0%,rgba(102,199,214,1) 100%);
+    filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='#0066cc', endColorstr='#52b5d5',GradientType=1 )";
+}
+
+h1 {
+  font-size: 200%;
+  font-family: sans-serif;
+  font-family: 'Oswald', sans-serif;
+  color: #fff;
+  text-shadow: 2px 2px 5px rgba(0,0,0,.5);
+}
+
+.content.container {
+     background: rgba(255,255,255,.9);
+     border-radius: 3px;
+}
+
+.content {
+  /*border: 1px #ddd solid;*/
+  padding: 20px;
+  margin: 20px;
+  font-family: 'Oswald', sans-serif;
+}
+
+.secret {
+  display: none;
+}
+
+.active {
+  border: 4px #f7b733 solid;
+}
+
+#contact {
+  background: #efefef;
+  border: 1px #999 dotted;
+  padding: 20px;
+  margin: 20px;
+}
+
+.button {
+  background-color: #fff;
+  border: 1px #ddd solid;
+  color: inherit;;
+  display: inline-block;
+  padding: 5px;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #f7b733;
+  border-color: #777;
+}
+
+/* ------ CLB Blackjack Styles ---------- */
+
+.player-side, .house-side {
+     width: 48%;
+}
+
+.player-side {
+     float: left;
+}
+
+.house-side {
+     float: right;
+}
+
+.hit-me-button-area {
+     margin: 20px;
+}
+
+a.nice-button {
+     padding: 16px;
+     border-radius: 3px;
+     background: #333;
+     color: #fff;
+     text-transform: uppercase;
+     text-decoration: none;
+     transition: all ease-in-out .2s;
+}
+
+a.nice-button:hover {
+     color: #fff;
+     background: red;
+}
