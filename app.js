@@ -106,7 +106,7 @@ var getCard = function() {
           //Make sure there is a card at that number
           if( typeof cards[cardnumber] == 'undefined' ) { cardnumber = getRandomInt(0, 51); }
 
-     var displayCard = cards[cardnumber].name + ' (' + cards[cardnumber].value + ')';
+     var displayCard = '<div class="single-card">' + cards[cardnumber].name + ' (' + cards[cardnumber].value + ')</div>';
 
      //Add points into array variable to be added up to score
      totalPoints.push( cards[cardnumber].value );
@@ -131,8 +131,24 @@ document.getElementById('house-card-1').innerHTML = getCard();
 document.getElementById('house-card-2').innerHTML = getCard();
 
 // add event listener to table
-var el = document.getElementById("hit-me");
-el.addEventListener("click", document.getElementById('player-card-2').innerHTML = getCard(), false);
+var linkEl = document.getElementById("hit-me");
+//el.addEventListener("click", getCard, false);
+
+function displayLinkInfo( event ) {
+  event.preventDefault();
+  console.log( event.target.innerHTML );
+}
+
+linkEl.addEventListener( 'click', displayLinkInfo, false );
+
+// var linkEl = document.getElementsByTagName( 'a' )[0];
+//
+// function displayLinkInfo( event ) {
+//   event.preventDefault();
+//   console.log( event.target.innerHTML );
+// }
+//
+// linkEl.addEventListener( 'click', displayLinkInfo, false );
 
 console.log(cards);
 console.log(Object.keys(cards));
