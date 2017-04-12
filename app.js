@@ -135,11 +135,11 @@ for(i = 0; i < playerCards.length; i++) {
 }
 
 // Get a total sum of first two Player cards
-var playerInitialSum = playerPoints.reduce(function (a, b) {
+var playerPointTotal = playerPoints.reduce(function (a, b) {
   return a + b;
 }, 0);
 
-document.getElementById('player-total-points').innerHTML += playerInitialSum;
+document.getElementById('player-total-points').innerHTML += playerPointTotal;
 
 // Get first two House cards and put them into an array to work with
 var houseCards = [getCard(), getCard()];
@@ -160,25 +160,33 @@ var houseInitialSum = housePoints.reduce(function (a, b) {
 
 document.getElementById('house-total-points').innerHTML += houseInitialSum;
 
+
+/********************************
+ * Hit Me Button Functionality
+ *
+ *******************************/
+
 // add event listener to table
 var linkEl = document.getElementById("hit-me");
 //el.addEventListener("click", getCard, false);
 
 function displayLinkInfo( event ) {
-  event.preventDefault();
-  console.log( event.target.innerHTML );
+     event.preventDefault();
+
+     var newCard = getCard();
+
+     displayCard = '<div class="single-card">' + newCard.name + ' (' + newCard.value + ')</div>';
+     document.getElementById('player-cards').innerHTML += displayCard;
+
+     var newCardValue = newCard.value
+     //Test some functionality here
+     playerPointTotal += newCardValue
+     document.getElementById('player-total-points').innerHTML = 'Total points: ' + playerPointTotal;
+
 }
 
 linkEl.addEventListener( 'click', displayLinkInfo, false );
 
-// var linkEl = document.getElementsByTagName( 'a' )[0];
-//
-// function displayLinkInfo( event ) {
-//   event.preventDefault();
-//   console.log( event.target.innerHTML );
-// }
-//
-// linkEl.addEventListener( 'click', displayLinkInfo, false );
 
 console.log(cards);
 console.log(Object.keys(cards));
