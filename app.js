@@ -166,27 +166,62 @@ document.getElementById('house-total-points').innerHTML += houseInitialSum;
  *
  *******************************/
 
-// add event listener to table
 var linkEl = document.getElementById("hit-me");
-//el.addEventListener("click", getCard, false);
 
-function displayLinkInfo( event ) {
+     // Don't Allow hits if player has Blackjack
+     if( playerPointTotal === 21 ) {
+          linkEl.removeEventListener( 'click', hitMeButton, false );
+          linkEl.innerHTML = 'Blackjack!';
+     }
+
+function hitMeButton( event ) {
      event.preventDefault();
 
+          // Don't Allow hits if player has Blackjack
+          if( playerPointTotal === 21 ) {
+               linkEl.removeEventListener( 'click', hitMeButton, false );
+          }
+
      var newCard = getCard();
+     playerCards.push( newCard );
+     playerPoints.push( newCard.value );
 
      displayCard = '<div class="single-card">' + newCard.name + ' (' + newCard.value + ')</div>';
      document.getElementById('player-cards').innerHTML += displayCard;
 
-     var newCardValue = newCard.value
-     //Test some functionality here
-     playerPointTotal += newCardValue
+     var newCardValue = newCard.value;
+     playerPointTotal += newCardValue;
+
+     var playerPointTotal = playerPoints.reduce(function (a, b) {
+       return a + b;
+     }, 0);
+
+     console.log('Updated Player Point Total: ' + playerPointTotal);
+     console.log('Updated Player Cards: ' +  JSON.stringify(playerCards));
+
      document.getElementById('player-total-points').innerHTML = 'Total points: ' + playerPointTotal;
+
+     if( playerPointTotal > 21 ) {
+          linkEl.removeEventListener( 'click', hitMeButton, false );
+          linkEl.innerHTML = 'Busted';
+     } else if( playerPointTotal === 21 ) {
+          linkEl.removeEventListener( 'click', hitMeButton, false );
+          linkEl.innerHTML = 'Blackjack!';
+     }
+
+
+     // Let's check for Aces
+     if( playerPointTotal > 21 ) {
+
+     }
+
 
 }
 
-linkEl.addEventListener( 'click', displayLinkInfo, false );
+linkEl.addEventListener( 'click', hitMeButton, false );
+
 
 
 console.log(cards);
 console.log(Object.keys(cards));
+console.log('Initial Player Point Total: ' + playerPointTotal);
