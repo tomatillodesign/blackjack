@@ -96,8 +96,6 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-var totalPoints = [];
-
 var getCard = function() {
 
      //Pull a random card from the deck
@@ -109,26 +107,58 @@ var getCard = function() {
      var displayCard = '<div class="single-card">' + cards[cardnumber].name + ' (' + cards[cardnumber].value + ')</div>';
 
      //Add points into array variable to be added up to score
-     totalPoints.push( cards[cardnumber].value );
+     //totalPoints.push( cards[cardnumber].value );
 
 
 
      //Now remove that card so that it can't be played again
      //cards = cards.splice(cardnumber);
+
+     var newCard = cards[cardnumber];
+
      delete cards[cardnumber];
 
-
-
-     return displayCard;
+     //return displayCard;
+     return newCard;
 }
 
-document.getElementById('player-card-1').innerHTML = getCard();
-document.getElementById('player-card-2').innerHTML = getCard();
+//Get first two player cards and put them into an array to work with
+var playerCards = [getCard(), getCard()];
+var playerPoints = [];
 
-document.getElementById('player-total-points').innerHTML += totalPoints;
+for(i = 0; i < playerCards.length; i++) {
 
-document.getElementById('house-card-1').innerHTML = getCard();
-document.getElementById('house-card-2').innerHTML = getCard();
+     var displayCard = '<div class="single-card">' + playerCards[i].name + ' (' + playerCards[i].value + ')</div>';
+     document.getElementById('player-cards').innerHTML += displayCard;
+     playerPoints.push( playerCards[i].value );
+
+}
+
+// Get a total sum of first two Player cards
+var playerInitialSum = playerPoints.reduce(function (a, b) {
+  return a + b;
+}, 0);
+
+document.getElementById('player-total-points').innerHTML += playerInitialSum;
+
+// Get first two House cards and put them into an array to work with
+var houseCards = [getCard(), getCard()];
+var housePoints = [];
+
+for(i = 0; i < houseCards.length; i++) {
+
+     var displayCard = '<div class="single-card">' + houseCards[i].name + ' (' + houseCards[i].value + ')</div>';
+     document.getElementById('house-cards').innerHTML += displayCard;
+     housePoints.push( houseCards[i].value );
+
+}
+
+//Total House points for first two cards
+var houseInitialSum = housePoints.reduce(function (a, b) {
+  return a + b;
+}, 0);
+
+document.getElementById('house-total-points').innerHTML += houseInitialSum;
 
 // add event listener to table
 var linkEl = document.getElementById("hit-me");
