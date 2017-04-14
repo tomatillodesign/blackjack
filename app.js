@@ -165,17 +165,6 @@ var houseInitialSum = housePoints.reduce(function (a, b) {
 document.getElementById('house-total-points').innerHTML += houseInitialSum;
 
 
-/********************************
- * Display Cards below Text
- *
- *******************************/
-
-
-
-
-
-
-
 
 
 
@@ -222,6 +211,17 @@ function hitMeButton( event ) {
      var displayCardImage = '<div class="single-card-image">' + newCard.name + ' (' + newCard.value + ')</div>';
      document.getElementById('player-display-cards').innerHTML += displayCardImage;
 
+
+     // Let's check for Aces
+     if( playerPointTotal > 21 ) {
+
+          playerCards.includes(11);
+          console.log('ACES');
+          playerPointTotal -= 10;
+
+     }
+
+
      document.getElementById('player-total-points').innerHTML = 'Total points: ' + playerPointTotal;
 
      if( playerPointTotal > 21 ) {
@@ -233,10 +233,7 @@ function hitMeButton( event ) {
      }
 
 
-     // Let's check for Aces
-     if( playerPointTotal > 21 ) {
 
-     }
 
 
 }
