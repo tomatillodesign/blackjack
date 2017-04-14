@@ -11,6 +11,7 @@ var  playerName,
      numberOfDecks,
      deck,
      playerCards,
+     aces,
      playerScore,
      houseCardA,
      houseCardB,
@@ -23,6 +24,7 @@ playerName = 'Chris';
 document.getElementById('player-name').innerHTML = playerName;
 
 //numberOfDecks = window.prompt( 'How many decks would you like to play with? (1-6)' );
+
 
 
 // Setup the Deck(s)
@@ -114,11 +116,10 @@ var getCard = function() {
      return newCard;
 }
 
-
-
 //Get first two player cards and put them into an array to work with
 var playerCards = [getCard(), getCard()];
 var playerPoints = [];
+var playerAces = [];
 
 for(i = 0; i < playerCards.length; i++) {
 
@@ -126,9 +127,20 @@ for(i = 0; i < playerCards.length; i++) {
      document.getElementById('player-cards').innerHTML += displayTextCard;
      playerPoints.push( playerCards[i].value );
 
+     playerAces.push( playerCards[i].name );
+
 
      // Display Card Image
-     var displayCardImage = '<div class="single-card-image">' + playerCards[i].name + ' (' + playerCards[i].value + ')</div>';
+
+          //Determine red or black
+          var CardName = playerCards[i].name;
+          if( CardName.includes('Hearts') || CardName.includes('Diamonds') ) {
+               var cardClass = 'red';
+          } else {
+               var cardClass = 'black';
+          }
+
+     var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + playerCards[i].name + ' (' + playerCards[i].value + ')</div>';
      document.getElementById('player-display-cards').innerHTML += displayCardImage;
 
 }
@@ -151,7 +163,16 @@ for(i = 0; i < houseCards.length; i++) {
      housePoints.push( houseCards[i].value );
 
      // Display Card Image
-     var displayCardImage = '<div class="single-card-image">' + houseCards[i].name + ' (' + houseCards[i].value + ')</div>';
+
+          //Determine red or black
+          var CardName = houseCards[i].name;
+          if( CardName.includes('Hearts') || CardName.includes('Diamonds') ) {
+               var cardClass = 'red';
+          } else {
+               var cardClass = 'black';
+          }
+
+     var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + houseCards[i].name + ' (' + houseCards[i].value + ')</div>';
      document.getElementById('house-display-cards').innerHTML += displayCardImage;
 
 
@@ -208,28 +229,56 @@ function hitMeButton( event ) {
      console.log('Updated Player Cards: ' +  JSON.stringify(playerCards));
 
      // Display Card Image
-     var displayCardImage = '<div class="single-card-image">' + newCard.name + ' (' + newCard.value + ')</div>';
+
+          //Determine red or black
+          var newCardName = newCard.name;
+          if( newCardName.includes('Hearts') || newCardName.includes('Diamonds') ) {
+               var cardClass = 'red';
+          } else {
+               var cardClass = 'black';
+          }
+
+     var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + newCard.name + ' (' + newCard.value + ')</div>';
      document.getElementById('player-display-cards').innerHTML += displayCardImage;
 
 
      // Let's check for Aces
-     if( playerPointTotal > 21 ) {
+     // var aces = false;
+     // if( newCardName.includes('Ace') ) {
+     //      aces = true;
+     // }
 
-          playerCards.includes(11);
-          console.log('ACES');
-          playerPointTotal -= 10;
+     playerAces.push( newCard.name );
+     var ace = playerAces.indexOf('Ace');
 
+     // var fruit = [
+     //     {name: 'apples', quantity: 2},
+     //     {name: 'bananas', quantity: 0},
+     //     {name: 'cherries', quantity: 5}
+     // ];
+
+     function findAces(playerCards) {
+         return playerCards.name === 'Ace';
      }
+
+     console.log(playerCards.find(findAces));
+
+     console.log(playerAces);
+     console.log(ace);
 
 
      document.getElementById('player-total-points').innerHTML = 'Total points: ' + playerPointTotal;
 
-     if( playerPointTotal > 21 ) {
+     if( (playerPointTotal > 21) && ( aces === false ) ) {
+
           linkEl.removeEventListener( 'click', hitMeButton, false );
           linkEl.innerHTML = 'Busted';
+
      } else if( playerPointTotal === 21 ) {
+
           linkEl.removeEventListener( 'click', hitMeButton, false );
           linkEl.innerHTML = 'Blackjack!';
+
      }
 
 

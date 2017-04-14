@@ -101,12 +101,22 @@ a.nice-button:hover {
      margin-top: 20px;
      height: 100px;
      width: 85px;
-     background: #aaa;
-     border-radius: 10px;
+     background: #fff;
+     border-radius: 12px;
      float: left;
      margin-right: 10px;
      padding: 20px;
      padding-top: 75px;
+}
+
+.single-card-image.red {
+     border: 2px solid red;
+     color: red;
+}
+
+.single-card-image.black {
+     border: 2px solid #000;
+     color: #000;
 }
 
 #player-display-card-area {
