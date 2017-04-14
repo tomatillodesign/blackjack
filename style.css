@@ -90,3 +90,25 @@ a.nice-button:hover {
      color: #fff;
      background: red;
 }
+
+
+
+
+
+/* ----- Card Images --------- */
+
+.single-card-image {
+     margin-top: 20px;
+     height: 100px;
+     width: 85px;
+     background: #aaa;
+     border-radius: 10px;
+     float: left;
+     margin-right: 10px;
+     padding: 20px;
+     padding-top: 75px;
+}
+
+#player-display-card-area {
+     text-align: center;
+}

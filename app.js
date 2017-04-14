@@ -26,8 +26,7 @@ document.getElementById('player-name').innerHTML = playerName;
 
 
 // Setup the Deck(s)
-var cardsInSuite = []
-
+//var cardsInSuite = []
 
 var cards = [];
 cards.push({name: 'Two of Clubs', value: 2});
@@ -86,9 +85,7 @@ cards.push({name: 'Queen of Spades', value: 10});
 cards.push({name: 'King of Spades', value: 10});
 cards.push({name: 'Ace of Spades', value: 11});
 
-// for( var i = 0; i < 13; i++ ) {
-//      clubs.push(i);
-// }
+
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -99,28 +96,25 @@ function getRandomInt(min, max) {
 var getCard = function() {
 
      //Pull a random card from the deck
-     var cardnumber = getRandomInt(0, 51);
+     var cardnumber = getRandomInt(0, cards.length);
 
           //Make sure there is a card at that number
           if( typeof cards[cardnumber] == 'undefined' ) { cardnumber = getRandomInt(0, 51); }
 
-     var displayCard = '<div class="single-card">' + cards[cardnumber].name + ' (' + cards[cardnumber].value + ')</div>';
+     var displayTextCard = '<div class="single-card">' + cards[cardnumber].name + ' (' + cards[cardnumber].value + ')</div>';
 
-     //Add points into array variable to be added up to score
-     //totalPoints.push( cards[cardnumber].value );
-
-
-
-     //Now remove that card so that it can't be played again
-     //cards = cards.splice(cardnumber);
-
+     // Create a new variable object that can be re-used later, because this function is returning the card object
      var newCard = cards[cardnumber];
 
-     delete cards[cardnumber];
+     //Now remove that card so that it can't be played again
+     var removed = cards.splice(cardnumber, 1);
+     console.log('Removed card: ' + JSON.stringify(removed) );
 
-     //return displayCard;
+     //return displayTextCard;
      return newCard;
 }
+
+
 
 //Get first two player cards and put them into an array to work with
 var playerCards = [getCard(), getCard()];
@@ -128,9 +122,14 @@ var playerPoints = [];
 
 for(i = 0; i < playerCards.length; i++) {
 
-     var displayCard = '<div class="single-card">' + playerCards[i].name + ' (' + playerCards[i].value + ')</div>';
-     document.getElementById('player-cards').innerHTML += displayCard;
+     var displayTextCard = '<div class="single-card">' + playerCards[i].name + ' (' + playerCards[i].value + ')</div>';
+     document.getElementById('player-cards').innerHTML += displayTextCard;
      playerPoints.push( playerCards[i].value );
+
+
+     // Display Card Image
+     var displayCardImage = '<div class="single-card-image">' + playerCards[i].name + ' (' + playerCards[i].value + ')</div>';
+     document.getElementById('player-display-cards').innerHTML += displayCardImage;
 
 }
 
@@ -147,9 +146,14 @@ var housePoints = [];
 
 for(i = 0; i < houseCards.length; i++) {
 
-     var displayCard = '<div class="single-card">' + houseCards[i].name + ' (' + houseCards[i].value + ')</div>';
-     document.getElementById('house-cards').innerHTML += displayCard;
+     var displayTextCard = '<div class="single-card">' + houseCards[i].name + ' (' + houseCards[i].value + ')</div>';
+     document.getElementById('house-cards').innerHTML += displayTextCard;
      housePoints.push( houseCards[i].value );
+
+     // Display Card Image
+     var displayCardImage = '<div class="single-card-image">' + houseCards[i].name + ' (' + houseCards[i].value + ')</div>';
+     document.getElementById('house-display-cards').innerHTML += displayCardImage;
+
 
 }
 
@@ -159,6 +163,21 @@ var houseInitialSum = housePoints.reduce(function (a, b) {
 }, 0);
 
 document.getElementById('house-total-points').innerHTML += houseInitialSum;
+
+
+/********************************
+ * Display Cards below Text
+ *
+ *******************************/
+
+
+
+
+
+
+
+
+
 
 
 /********************************
@@ -186,8 +205,8 @@ function hitMeButton( event ) {
      playerCards.push( newCard );
      playerPoints.push( newCard.value );
 
-     displayCard = '<div class="single-card">' + newCard.name + ' (' + newCard.value + ')</div>';
-     document.getElementById('player-cards').innerHTML += displayCard;
+     displayTextCard = '<div class="single-card">' + newCard.name + ' (' + newCard.value + ')</div>';
+     document.getElementById('player-cards').innerHTML += displayTextCard;
 
      var newCardValue = newCard.value;
      playerPointTotal += newCardValue;
@@ -198,6 +217,10 @@ function hitMeButton( event ) {
 
      console.log('Updated Player Point Total: ' + playerPointTotal);
      console.log('Updated Player Cards: ' +  JSON.stringify(playerCards));
+
+     // Display Card Image
+     var displayCardImage = '<div class="single-card-image">' + newCard.name + ' (' + newCard.value + ')</div>';
+     document.getElementById('player-display-cards').innerHTML += displayCardImage;
 
      document.getElementById('player-total-points').innerHTML = 'Total points: ' + playerPointTotal;
 
@@ -219,6 +242,8 @@ function hitMeButton( event ) {
 }
 
 linkEl.addEventListener( 'click', hitMeButton, false );
+
+
 
 
 
