@@ -5,7 +5,7 @@
 
 //vars
 var  playerName,
-     cash,
+     cash = 10000,
      bet,
      teachingMode,
      numberOfDecks,
@@ -25,10 +25,10 @@ document.getElementById('player-name').innerHTML = playerName;
 
 //numberOfDecks = window.prompt( 'How many decks would you like to play with? (1-6)' );
 
-
-
-// Setup the Deck(s)
-//var cardsInSuite = []
+/********************************
+ * Set up the Deck
+ *
+ *******************************/
 
 var cards = [];
 cards.push({name: 'Two of Clubs', value: 2});
@@ -73,19 +73,40 @@ cards.push({name: 'Queen of Hearts', value: 10});
 cards.push({name: 'King of Hearts', value: 10});
 cards.push({name: 'Ace of Hearts', value: 11});
 
-cards.push({name: 'Two of Spades', value: 2});
-cards.push({name: 'Three of Spades', value: 3});
-cards.push({name: 'Four of Spades', value: 4});
-cards.push({name: 'Five of Spades', value: 5});
-cards.push({name: 'Six of Spades', value: 6});
-cards.push({name: 'Seven of Spades', value: 7});
-cards.push({name: 'Eight of Spades', value: 8});
-cards.push({name: 'Nine of Spades', value: 9});
-cards.push({name: 'Ten of Spades', value: 10});
-cards.push({name: 'Jack of Spades', value: 10});
-cards.push({name: 'Queen of Spades', value: 10});
-cards.push({name: 'King of Spades', value: 10});
-cards.push({name: 'Ace of Spades', value: 11});
+cards.push({name: 'Two of Spades', value: 2, symbol: '&spades';});
+cards.push({name: 'Three of Spades', value: 3, symbol: '&spades;'});
+cards.push({name: 'Four of Spades', value: 4, symbol: '&spades;'});
+cards.push({name: 'Five of Spades', value: 5, symbol: '&spades;'});
+cards.push({name: 'Six of Spades', value: 6, symbol: '&spades;'});
+cards.push({name: 'Seven of Spades', value: 7, symbol: '&spades;'});
+cards.push({name: 'Eight of Spades', value: 8, symbol: '&spades;'});
+cards.push({name: 'Nine of Spades', value: 9, symbol: '&spades;'});
+cards.push({name: 'Ten of Spades', value: 10, symbol: '&spades;'});
+cards.push({name: 'Jack of Spades', value: 10, symbol: '&spades;'});
+cards.push({name: 'Queen of Spades', value: 10, symbol: '&spades;'});
+cards.push({name: 'King of Spades', value: 10, symbol: '&spades;'});
+cards.push({name: 'Ace of Spades', value: 11, symbol: '&spades;'});
+
+
+/********************************
+ * How much will you bet?
+ *
+ *******************************/
+
+
+
+var betForm = document.getElementById( 'the-bet' );
+var betAmount = document.getElementById( 'bet-amount' ).value;
+console.log( 'Bet Amount: ' + betAmount );
+
+document.getElementById('cash').innerHTML += cash;
+
+
+
+/********************************
+ * Start Playing
+ *
+ *******************************/
 
 
 
@@ -243,28 +264,18 @@ function hitMeButton( event ) {
 
 
      // Let's check for Aces
-     // var aces = false;
-     // if( newCardName.includes('Ace') ) {
-     //      aces = true;
-     // }
+     var aces = newCardName.includes('Ace');
 
-     playerAces.push( newCard.name );
-     var ace = playerAces.indexOf('Ace');
 
-     // var fruit = [
-     //     {name: 'apples', quantity: 2},
-     //     {name: 'bananas', quantity: 0},
-     //     {name: 'cherries', quantity: 5}
-     // ];
 
-     function findAces(playerCards) {
-         return playerCards.name === 'Ace';
+     //console.log(playerAces);
+     console.log(aces);
+
+     if( aces === true ) {
+
+          playerPointTotal -= 10;
+
      }
-
-     console.log(playerCards.find(findAces));
-
-     console.log(playerAces);
-     console.log(ace);
 
 
      document.getElementById('player-total-points').innerHTML = 'Total points: ' + playerPointTotal;

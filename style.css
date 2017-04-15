@@ -2,6 +2,7 @@ body {
   background: #efefef;
   text-align: center;
   font-family: 'Oswald', sans-serif;
+  font-size: 18px;
   background: #0066cc;
     background: -moz-linear-gradient(45deg, rgba(0,102,204,1) 0%, rgba(102,199,214,1) 100%);
     background: -webkit-linear-gradient(45deg, rgba(0,102,204,1) 0%,rgba(102,199,214,1) 100%);
@@ -99,14 +100,14 @@ a.nice-button:hover {
 
 .single-card-image {
      margin-top: 20px;
-     height: 100px;
+     height: 120px;
      width: 85px;
      background: #fff;
      border-radius: 12px;
      float: left;
      margin-right: 10px;
      padding: 20px;
-     padding-top: 75px;
+     padding-top: 55px;
 }
 
 .single-card-image.red {
@@ -121,4 +122,23 @@ a.nice-button:hover {
 
 #player-display-card-area {
      text-align: center;
+}
+
+button, .button, input[type="submit"] {
+     padding: 20px;
+     border-radius: 3px;
+     background: #333;
+     color: #fff;
+     font-family: 'Oswald', sans-serif;
+     border: none;
+     font-size: 16px;
+     text-transform: uppercase;
+     margin-top: 8px;
+}
+
+input {
+     font-family: 'Oswald', sans-serif;
+     border: none;
+     font-size: 16px;
+     text-transform: uppercase;
 }

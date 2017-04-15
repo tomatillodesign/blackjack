@@ -14,9 +14,22 @@
 
        <div class="content">
 
+            &spades;
+
             <div class="player-side">
 
                  <h2 id="player-name">Player One</h2>
+
+                 <div id="cash">Your Cash: $</div>
+
+                 <div class="bet-area">
+                     <form action="" method="get" id="the-bet" name="the-bet">
+                          <label for="betAmount">How much to bet? ($10 min, $500 max)</label><br/>
+                          <input type="number" id="bet-amount" name="betAmount" value="" step="10" min="10" max="1000" tabindex="1" autofocus="true" autocomplete="name" draggable="true" />
+                              <br/>
+                          <input type="submit" name="submit" value="Submit Bet" tabindex="2">
+                     </form>
+                 </div>
 
                  <div class="hit-me-button-area"><a href="#" id="hit-me" class="nice-button">Hit Me</a></div>
 
