@@ -358,12 +358,16 @@ function standButton( event ) {
 
      console.log('House Point Total: ' + housePointTotal);
 
+
+
      /********************************
       * Now it's the House's turn
       *
       *******************************/
 
      while( housePointTotal < 17 ) {
+
+
 
           var newCard = getCard();
           houseCards.push( newCard );
@@ -440,8 +444,33 @@ function standButton( event ) {
 
      }
 
+
+     /********************************
+     * Who Won the Hand?
+     *
+     *******************************/
+
+     var winnerNotice = document.getElementById('winner');
+
+     console.log('Player Point Total: ' + playerPointTotal + ' | House Point Total: ' + housePointTotal);
+
+     if( (playerPointTotal <= 21) && (housePointTotal > 21) ) {
+          winnerNotice.innerHTML = 'Player Wins!';
+     } else if( (playerPointTotal <= 21) && (housePointTotal < playerPointTotal) ) {
+          winnerNotice.innerHTML = 'Player Wins!';
+     }
+
+     else {
+          winnerNotice.innerHTML = 'The House Wins!';
+     }
+
+
 }
 linkEl.addEventListener( 'click', standButton, false );
+
+
+
+
 
 
 
