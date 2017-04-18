@@ -96,10 +96,38 @@ cards.push({name: 'Ace of Spades', value: 11, symbol: '&spades;'});
 
 
 var betForm = document.getElementById( 'the-bet' );
-var betAmount = document.getElementById( 'bet-amount' ).value;
-console.log( 'Bet Amount: ' + betAmount );
+
+     //var betAmount = document.getElementsByName( 'bet-amount' )[0];
+
+var betAmount = document.getElementById( 'bet-amount' );
+
+     // betAmount.value = 500;
+
+
 
 document.getElementById('cash').innerHTML += cash;
+
+
+function getBetFormValue() {
+
+    document.getElementById('the-bet').addEventListener( "submit", function(e) {
+         event.preventDefault();
+
+        var betAmount = document.getElementById( 'bet-amount' );
+        console.log( 'Bet Amount: ' + betAmount.value );
+
+        // Hide Hit Me button until bet is entered
+        var hitMeButton = document.getElementById("hit-me");
+        hitMeButton.setAttribute( 'class', 'hidden');
+
+   }
+
+     );
+
+}
+
+bet = getBetFormValue();
+console.log( 'Bet: ' + bet );
 
 
 
