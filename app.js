@@ -16,7 +16,8 @@ var  playerName,
      houseCardA,
      houseCardB,
      houseAdditionalCards,
-     houseScore;
+     houseScore,
+     houseAces;
 
 // Let's get started, two questions
 //playerName = window.prompt( 'Please enter your name:' );
@@ -93,41 +94,46 @@ cards.push({name: 'Ace of Spades', value: 11, symbol: '&spades;'});
  *
  *******************************/
 
+var placeBet = document.getElementById("the-bet");
+placeBet.addEventListener( 'submit', returnBetAmount, false );
 
-
-var betForm = document.getElementById( 'the-bet' );
-
-     //var betAmount = document.getElementsByName( 'bet-amount' )[0];
-
-var betAmount = document.getElementById( 'bet-amount' );
-
-     // betAmount.value = 500;
-
-
-
-document.getElementById('cash').innerHTML += cash;
-
-
-function getBetFormValue() {
-
-    document.getElementById('the-bet').addEventListener( "submit", function(e) {
-         event.preventDefault();
-
-        var betAmount = document.getElementById( 'bet-amount' );
-        console.log( 'Bet Amount: ' + betAmount.value );
-
-        // Hide Hit Me button until bet is entered
-        var hitMeButton = document.getElementById("hit-me");
-        hitMeButton.setAttribute( 'class', 'hidden');
-
-   }
-
-     );
-
+function returnBetAmount( event ) {
+     event.preventDefault();
+     betAmount = document.getElementById( 'bet-amount' );
+     bet = betAmount.value;
+     console.log('placeBet: ' + bet);
 }
 
-bet = getBetFormValue();
-console.log( 'Bet: ' + bet );
+
+
+
+// var betForm = document.getElementById( 'the-bet' );
+//
+//      //var betAmount = document.getElementsByName( 'bet-amount' )[0];
+//
+// var betAmount = document.getElementById( 'bet-amount' );
+//
+//      // betAmount.value = 500;
+//
+// document.getElementById('cash').innerHTML += cash;
+//
+// function getBetFormValue() {
+//
+//     document.getElementById('the-bet').addEventListener( "submit", function(e) {
+//          event.preventDefault();
+//
+//         betAmount = document.getElementById( 'bet-amount' );
+//         console.log( 'Bet Amount: ' + betAmount.value );
+//
+//    }
+//
+//      );
+//
+// }
+//
+// //console.log( 'Bet: ' + getBetFormValue() );
+//
+// bet = getBetFormValue();
 
 
 
@@ -165,6 +171,8 @@ var getCard = function() {
      return newCard;
 }
 
+
+
 //Get first two player cards and put them into an array to work with
 var playerCards = [getCard(), getCard()];
 var playerPoints = [];
@@ -201,6 +209,7 @@ var playerPointTotal = playerPoints.reduce(function (a, b) {
 
 document.getElementById('player-total-points').innerHTML += playerPointTotal;
 
+
 // Get first two House cards and put them into an array to work with
 var houseCards = [getCard(), getCard()];
 var housePoints = [];
@@ -221,8 +230,15 @@ for(i = 0; i < houseCards.length; i++) {
                var cardClass = 'black';
           }
 
-     var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + houseCards[i].name + ' (' + houseCards[i].value + ')</div>';
+     var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + houseCards[i].name + ' (' + houseCards[i].value + ')<div class="card-symbols">' + playerCards[i].symbol + '</div></div>';
      document.getElementById('house-display-cards').innerHTML += displayCardImage;
+
+     // Let's check for Aces
+     var houseOldCardAces = CardName.includes('Ace');
+     if( houseOldCardAces === true ) {
+          houseAces = true;
+     }
+
 
 
 }
@@ -328,6 +344,104 @@ function hitMeButton( event ) {
 
 linkEl.addEventListener( 'click', hitMeButton, false );
 
+
+/********************************
+ * Stop Hitting Me
+ *
+ *******************************/
+
+var linkEl = document.getElementById("stand");
+function standButton( event ) {
+     event.preventDefault();
+
+     housePointTotal = houseInitialSum;
+
+     console.log('House Point Total: ' + housePointTotal);
+
+     /********************************
+      * Now it's the House's turn
+      *
+      *******************************/
+
+     while( housePointTotal < 17 ) {
+
+          var newCard = getCard();
+          houseCards.push( newCard );
+          housePoints.push( newCard.value );
+
+          var newCardValue = newCard.value;
+          housePointTotal += newCardValue;
+
+          var housePointTotal = housePoints.reduce(function (a, b) {
+            return a + b;
+          }, 0);
+
+          console.log('Updated House Point Total: ' + housePointTotal);
+          console.log('Updated House Cards: ' +  JSON.stringify(houseCards));
+
+          document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePointTotal;
+
+          // Display Card Image
+
+               //Determine red or black
+               var newCardName = newCard.name;
+               if( newCardName.includes('Hearts') || newCardName.includes('Diamonds') ) {
+                    var cardClass = 'red';
+               } else {
+                    var cardClass = 'black';
+               }
+
+          var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + newCard.name + ' (' + newCard.value + ')<div class="card-symbols">' + newCard.symbol + '</div></div>';
+          document.getElementById('house-display-cards').innerHTML += displayCardImage;
+
+          // Let's check for Aces
+          var houseNewCardAces = newCardName.includes('Ace');
+
+          if( houseNewCardAces === true ) {
+               houseAces = true;
+          }
+
+
+          if( (housePointTotal > 21) && (houseAces === true) ) {
+                    housePointTotal -= 10;
+          }
+
+
+
+}
+
+     console.log('Aces: ' + houseAces);
+
+     // Time to check the house's score
+
+     // document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePointTotal;
+     // var houseStatus = document.getElementById('house-status');
+
+//     if( (housePointTotal > 21) && ( aces === false ) ) {
+     // if( (housePointTotal > 21) ) {
+     //
+     //      if( houseAces === true ) {
+     //           housePointTotal -= 10;
+     //           }
+
+     if( (housePointTotal > 21) ) {
+
+          //linkEl.removeEventListener( 'click', hitMeButton, false );
+          document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePointTotal;
+          var houseStatus = document.getElementById('house-status');
+          houseStatus.innerHTML = 'Busted';
+
+     } else if( housePointTotal === 21 ) {
+
+          //linkEl.removeEventListener( 'click', hitMeButton, false );
+          document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePointTotal;
+          var houseStatus = document.getElementById('house-status');
+          houseStatus.innerHTML = 'Blackjack!';
+
+     }
+
+}
+linkEl.addEventListener( 'click', standButton, false );
 
 
 
