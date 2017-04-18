@@ -124,6 +124,13 @@ a.nice-button:hover {
      color: red;
 }
 
+.single-card-image.card-back {
+     background: -moz-linear-gradient(45deg, rgba(0,102,204,1) 0%, rgba(102,199,214,1) 100%);
+    background: -webkit-linear-gradient(45deg, rgba(0,102,204,1) 0%,rgba(102,199,214,1) 100%);
+    background: linear-gradient(45deg, rgba(0,102,204,1) 0%,rgba(102,199,214,1) 100%);
+    filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='#0066cc', endColorstr='#52b5d5',GradientType=1 )";
+}
+
 .single-card-image.black {
      border: 2px solid #000;
      color: #000;
@@ -156,6 +163,15 @@ input {
 
 .action-buttons {
      margin: 30px;
+}
+
+.game-notices {
+     margin-top: 20px;
+     background: yellow;
+     color: #000;
+     font-size: 20px;
+     padding: 16px;
+     border-radius: 3px;
 }
 
 /*.hit-me-button-area {

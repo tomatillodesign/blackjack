@@ -20,10 +20,14 @@
 
                  <div id="cash">Your Cash: $</div>
 
-                 <div class="bet-area">
+                 <div class="action-buttons">
+                       <div class="cash-out-button-area"><a href="#" id="cash-out" class="nice-button">Cash Out</a></div>
+                  </div>
+
+                 <div id="bet-area">
                      <form action="" method="get" id="the-bet" name="the-bet">
-                          <label for="betAmount">How much to bet? ($10 min, $500 max)</label><br/>
-                          <input type="number" id="bet-amount" name="betAmount" value="" step="10" min="10" max="500" tabindex="1" autofocus="true" autocomplete="name" draggable="true" />
+                          <label for="betAmount">How much to bet? ($10 min, $100 max)</label><br/>
+                          <input type="number" id="bet-amount" name="betAmount" value="" step="10" min="10" max="100" tabindex="1" autofocus="true" autocomplete="name" draggable="true" />
                               <br/>
                           <input type="submit" name="submit" value="Submit Bet" tabindex="2">
                      </form>
@@ -51,13 +55,17 @@
 
                  <div id="house-cards"></div>
 
-                 <div id="house-total-points">Total points: </div>
+                 <div id="house-total-points"></div>
 
                  <div id="house-status"></div>
 
                  <div id="house-display-cards"></div>
 
             </div>
+
+
+
+            <br clear="all">
 
             <div class="game-notices">
 
@@ -69,8 +77,6 @@
 
             </div>
 
-            <br clear="all">
-
        </div>
 
   <footer class="content">
@@ -80,5 +86,5 @@
   </footer>
 
 </body>
-<script src="app.js"></script>
+<script src="app-updated.js"></script>
 </html>
