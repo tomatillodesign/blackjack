@@ -18,6 +18,15 @@ h1 {
   text-shadow: 2px 2px 5px rgba(0,0,0,.5);
 }
 
+h1 a {
+     text-decoration: none;
+     color: #fff;
+}
+
+h1 a:hover {
+     color: #333;
+}
+
 .content.container {
      background: rgba(255,255,255,.9);
      border-radius: 3px;
@@ -124,6 +133,8 @@ a.nice-button:hover {
      text-align: center;
 }
 
+
+
 button, .button, input[type="submit"] {
      padding: 20px;
      border-radius: 3px;
@@ -142,3 +153,16 @@ input {
      font-size: 16px;
      text-transform: uppercase;
 }
+
+.action-buttons {
+     margin: 30px;
+}
+
+/*.hit-me-button-area {
+     float: left;
+     margin-right: 20px;
+}
+
+.stand-button-area {
+     float: right;
+}*/
