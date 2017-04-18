@@ -1,0 +1,43 @@
+BlackJack FlowChart
+
+Place bet or cash out
+
+     if cashing out, check to add to high scores
+
+     else if placing bet, make sure bet is not larger than cash remaining
+
+          deal player and house hands
+
+               check for naturals
+
+                    if both have naturals, return bet and start over
+
+                    if player has natural and house doesn't, player gets 1.5x the bet
+
+                    if house has natural and player doesn't, house collects bet and hand is over
+
+               play the hand: hit or stand (enable keyboard shortcuts and buttons)
+
+                    if player total === 9, 10 or 11, option to double down
+
+                         -> When the player's turn comes, he places a bet equal to the original bet, and the dealer gives him just one card, which is placed face down and is not turned up until the bets are settled at the end of the hand.
+
+                    if hitting, add a new card from the deck
+
+                         if player has ace and score goes over 21, set the value of the ace from 11 to 1
+
+                         if player goes over 21, hand ends and player loses bet
+
+                    if standing, play moves to the dealer
+
+               dealer play: if score is under 17, hit else if score is 17 or above, stand
+
+                    if hitting, add a new card from the deck
+
+                         if house has ace and score goes over 21, set the value of the ace from 11 to 1
+
+                         if house goes over 21, don't hit again
+
+                         if score is still under 17, hit again
+
+               settling: player wins bet if( player is 21 or under and house is over 21 ) else if( player and house are both 21 or under and tie, then bet is returned) else house wins
