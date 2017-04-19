@@ -186,6 +186,11 @@ function logHighScore(e) {
 
 var takeTurn = function() {
 
+     playerCards = [];
+     playerPoints = [];
+     houseCards = [];
+     housePoints = [];
+
      // Hide Action Buttons Until the Bet is Placed
      document.getElementById("cash-out-button").style.display="none";
      document.getElementById("next-hand-button").style.display="none";
@@ -217,6 +222,8 @@ var takeTurn = function() {
                     }
 
           console.log('placeBet: ' + bet);
+
+          document.getElementsByClassName('action-buttons')[0].style.display="inline-block";
 
           document.getElementById("hit-me-button").style.display="inline-block";
           document.getElementById("stand-button").style.display="inline-block";
@@ -308,12 +315,54 @@ var takeTurn = function() {
 
                 if( playerPoints === 21 && housePoints != 21 ) {
                      document.getElementsByClassName('action-buttons')[0].style.display="none";
-                     document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You got a natural Blackjack! You win the hand.</div>';
+                     //document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You got a natural Blackjack! You win the hand.</div>';
                      winner = 'player';
+
+                     //Hide action Buttons
+                     document.getElementsByClassName('action-buttons')[0].style.display="none";
+
+                     // Player wins
+                     // Get setup for the next hand
+
+                     document.getElementById("cash-out-button").style.display="inline-block";
+                     document.getElementById("next-hand-button").style.display="inline-block";
+
+                    //  playerCards = null;
+                    //  playerPoints = 0;
+                    //  houseCards = null;
+                    //  housePoints = 0;
+
+                     var winnings = bet * 2;
+                     cash += winnings;
+                     document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+                     document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You got a natural Blackjack! You won $' + bet + '.</div>';
+
+
                 } else if( playerPoints != 21 && housePoints === 21 ) {
                     document.getElementsByClassName('action-buttons')[0].style.display="none";
                     document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">The House got a natural Blackjack! House wins the hand.</div>';
+
+                    //Hide action Buttons
+                    document.getElementsByClassName('action-buttons')[0].style.display="none";
+
+                    // House wins
+                    // Get setup for the next hand
+
+                    document.getElementById("cash-out-button").style.display="inline-block";
+                    document.getElementById("next-hand-button").style.display="inline-block";
+
+                    // playerCards = null;
+                    // playerPoints = 0;
+                    // houseCards = null;
+                    // housePoints = 0;
+
+                    var losses = bet;
+                    cash -= losses;
+                    document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+                    //document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You busted. The House won. You lost $' + losses + '.</div>';
+
                     winner = 'house';
+
                } else if( playerPoints === 21 && housePoints === 21 ) {
                     document.getElementsByClassName('action-buttons')[0].style.display="none";
                     document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You both got natural Blackjacks! Your bet is returned.</div>';
@@ -426,13 +475,28 @@ var takeTurn = function() {
                            if( playerPoints > 21 ) {
 
                                 hitMeButton.removeEventListener( 'click', hitMe, false );
-                                hitMeButton.innerHTML = 'Busted!';
+                                //hitMeButton.innerHTML = 'Busted!';
+
+                                console.log('Player points line 480: ' + playerPoints);
 
                                 //Hide action Buttons
                                 document.getElementsByClassName('action-buttons')[0].style.display="none";
 
-                                //Announce the Winner
-                                document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">Busted. The House wins the hand.</div>';
+                                // House wins
+                                // Get setup for the next hand
+
+                                document.getElementById("cash-out-button").style.display="inline-block";
+                                document.getElementById("next-hand-button").style.display="inline-block";
+
+                              //   playerCards = [];
+                              //   playerPoints = [];
+                              //   houseCards = [];
+                              //   housePoints = [];
+
+                                var losses = bet;
+                                cash -= losses;
+                                document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+                                document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You busted. The House won. You lost $' + losses + '.</div>';
 
                                 // Record the Winner
                                 winner = 'house';
@@ -508,8 +572,15 @@ var takeTurn = function() {
                             if( ((playerPoints > housePoints) && (playerPoints <= 21)) || ((playerPoints <=21) && (housePoints > 21)) ) {
 
                                 //Player Wins
-                                var winnings = bet * 2;
-                                cash += winnings;
+                              //var winnings = bet * 2;
+                                var winnings = bet;
+                                console.log('Cash = ' + cash);
+                                console.log('Winnings = ' + winnings);
+                                //cash += winnings;
+                              cash = cash + winnings;
+
+                                   console.log('Updated Cash = ' + cash);
+
                                 document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
                                 document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You won $' + bet + '.</div>';
 
@@ -519,6 +590,8 @@ var takeTurn = function() {
                                 //House wins
                                 var losses = bet;
                                 cash -= losses;
+                                console.log('Cash = ' + cash);
+                                console.log('Updated Cash = ' + cash);
                                 document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
                                 document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">The House won. You lost $' + losses + '.</div>';
 
@@ -530,10 +603,10 @@ var takeTurn = function() {
                            document.getElementById("cash-out-button").style.display="inline-block";
                            document.getElementById("next-hand-button").style.display="inline-block";
 
-                           playerCards = null;
-                           playerPoints = 0;
-                           houseCards = null;
-                           housePoints = 0;
+                         //   playerCards = [];
+                         //   playerPoints = [];
+                         //   houseCards = [];
+                         //   housePoints = [];
 
 
                       }
@@ -565,10 +638,10 @@ var takeTurn = function() {
 
           console.log("RESET");
 
-          playerCards = null;
-          playerPoints = 0;
-          houseCards = null;
-          housePoints = 0;
+          playerCards = [];
+          playerPoints = [];
+          houseCards = [];
+          housePoints = [];
 
           console.log(playerCards);
 
