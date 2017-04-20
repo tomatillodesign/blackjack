@@ -179,6 +179,10 @@ input {
      border-radius: 3px;
 }
 
+footer {
+     color: #fff;
+}
+
 /*.hit-me-button-area {
      float: left;
      margin-right: 20px;
