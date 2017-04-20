@@ -162,21 +162,18 @@ input {
 }
 
 .action-buttons {
-     margin: 30px;
+     margin: 24px;
 }
 
-<<<<<<< HEAD
-.game-notices {
-     margin-top: 20px;
+.game-notices #status, .game-notices #action, .game-notices #winner {
+     margin-top: 0px;
      background: yellow;
      color: #000;
-     font-size: 20px;
-     padding: 16px;
+     font-size: 24px;
+     padding: 24px;
      border-radius: 3px;
 }
 
-=======
->>>>>>> origin/master
 /*.hit-me-button-area {
      float: left;
      margin-right: 20px;
