@@ -125,6 +125,7 @@ a.nice-button:hover {
 }
 
 .single-card-image.card-back {
+     border: none !important;
      background: -moz-linear-gradient(45deg, rgba(0,102,204,1) 0%, rgba(102,199,214,1) 100%);
     background: -webkit-linear-gradient(45deg, rgba(0,102,204,1) 0%,rgba(102,199,214,1) 100%);
     background: linear-gradient(45deg, rgba(0,102,204,1) 0%,rgba(102,199,214,1) 100%);
