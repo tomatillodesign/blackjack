@@ -18,6 +18,7 @@ var  playerName,
      houseCards,
      housePoints,
      winner,
+     playerDoubleDown,
      cashArray = [1000];
 
 // Let's get started, two questions
@@ -214,7 +215,12 @@ var playHand = function(cash, bet) {
           document.getElementById("stand-button").style.display="none";
           document.getElementById("bet-amount-display").style.display="none";
 
-          document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+          //Show the bet amount
+          document.getElementById("bet-amount-display").style.display="block";
+          document.getElementById("bet-amount-display").innerHTML = 'Your bet: $' + bet;
+
+          //document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+
 
           /********************************
            * Deal the Hand
@@ -317,6 +323,46 @@ var playHand = function(cash, bet) {
                 }
 
 
+                /********************************
+                 * Check for Double Aces
+                 *
+                 *******************************/
+
+                 if( (playerPoints === 22) && (acesCheck(playerCards)) === true ) {
+                      playerPoints -= 10;
+                 }
+
+                 if( (housePoints === 22) && (acesCheck(houseCards)) === true ) {
+                      housePoints -= 10;
+                 }
+
+
+                 /********************************
+                 * Opportunity to Double Down
+                 *
+                 *******************************/
+
+                 if( (playerPoints === 9 || playerPoints === 10 || playerPoints === 11 ) && (cash >= bet*2) ) {
+
+                      document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">Would you like to double-down? <a href="#" id="double-down" class="nice-button">Yes</a></div>';
+
+                      var doubleDown = document.getElementById("double-down");
+                      doubleDown.addEventListener( 'click', doubleDownUpdateBet, false );
+
+                      function doubleDownUpdateBet(e) {
+
+                           event.preventDefault();
+                           bet = bet * 2;
+                           console.log('New Bet (Double Down): $' + bet);
+
+                           doubleDown.removeEventListener( 'click', doubleDownUpdateBet, false );
+                           document.getElementById("bet-amount-display").innerHTML = 'Your bet: $' + bet;
+                           document.getElementsByClassName('game-notices')[0].innerHTML = '';
+
+
+                      }
+
+                 }
 
 
           // Determine Winner and update Cash
@@ -360,10 +406,6 @@ var handSetup = function() {
                //Hide the bet amount form
                placeBet.style.display="none";
 
-               //Show the bet amount
-               document.getElementById("bet-amount-display").style.display="block";
-               document.getElementById("bet-amount-display").innerHTML = 'Your bet: $' + bet;
-
                console.log('Bet Amount: $' + bet);
 
                     // Loop that actually plays a hand
@@ -372,7 +414,7 @@ var handSetup = function() {
                          cash = cashArray[cashArray.length - 1];
                          console.log('handSetup cash array: ' + cash);
 
-                         console.log('right before calling playHand(): ' + cash)
+                         console.log('right before calling playHand(): ' + cash);
 
                          playHand(cash, bet);
 
