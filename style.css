@@ -30,12 +30,12 @@ h1 a:hover {
 .content.container {
      background: rgba(255,255,255,.9);
      border-radius: 3px;
+     margin: 0px 30px;
 }
 
 .content {
-  /*border: 1px #ddd solid;*/
-  padding: 20px;
-  margin: 20px;
+  padding: 0px;
+  margin: 0px;
   font-family: 'Oswald', sans-serif;
 }
 
@@ -71,7 +71,7 @@ h1 a:hover {
 /* ------ CLB Blackjack Styles ---------- */
 
 .player-side, .house-side {
-     width: 48%;
+     width: 45%;
 }
 
 .player-side {
@@ -171,16 +171,25 @@ input {
 }
 
 .game-notices #status, .game-notices #action, .game-notices #winner {
-     margin-top: 0px;
      background: yellow;
      color: #000;
      font-size: 24px;
      padding: 24px;
      border-radius: 3px;
+     margin-top: 20px;
 }
 
 footer {
      color: #fff;
+}
+
+h2 {
+     margin-top: 0px;
+}
+
+.player-side, .house-side {
+     margin: 20px;
+     margin-top: 0px;
 }
 
 /*.hit-me-button-area {

@@ -383,12 +383,12 @@ var takeTurn = function() {
                     document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
                     //document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You busted. The House won. You lost $' + losses + '.</div>';
 
-                    winner = 'house';
+                    winner = 'House';
 
                } else if( playerPoints === 21 && housePoints === 21 ) {
                     document.getElementsByClassName('action-buttons')[0].style.display="none";
                     document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You both got natural Blackjacks! Your bet is returned.</div>';
-                    winner = 'tie';
+                    winner = 'Tie';
                }
 
                /********************************
