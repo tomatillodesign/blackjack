@@ -198,7 +198,6 @@ var hitMeNewCard = function() {
 
 var determineWinner = function(playerPoints, housePoints) {
 
-     console.log('DETERMINE WINNER');
      // Determine Winner of hand
      if( playerPoints > 21 ) {
           winner = 'House';
@@ -212,13 +211,14 @@ var determineWinner = function(playerPoints, housePoints) {
           winner = 'Tie';
      }
 
+     console.log('And the winner is: ' + winner);
+
      return winner;
 
 }
 
 var handOverMessage = function(playerPoints, housePoints, bet) {
 
-     console.log('Hand Over Message');
      var message;
 
      // Determine Winner of hand
@@ -241,6 +241,7 @@ var handOverMessage = function(playerPoints, housePoints, bet) {
 var updateCash = function(winner, cash, bet) {
 
      // Update Cash
+     console.log('UPDATE CASH FUNCTION');
      if( winner === 'Player' ) {
 
           cash = updateCashWin(cash, bet);
@@ -283,6 +284,7 @@ var playHand = function(cash, bet) {
           document.getElementById("hit-me-button").style.display="none";
           document.getElementById("stand-button").style.display="none";
           document.getElementById("bet-amount-display").style.display="none";
+          document.getElementsByClassName('action-buttons')[1].style.display="none";
 
           //Show the bet amount
           document.getElementById("bet-amount-display").style.display="block";
@@ -461,6 +463,9 @@ var playHand = function(cash, bet) {
 
                       playerPoints = addCards( playerCards );
 
+                      console.log('HIT ME TOTAL: ' + playerPoints);
+
+
                       // Display Card Image
 
                            //Determine red or black
@@ -476,10 +481,10 @@ var playHand = function(cash, bet) {
 
 
                       //Aces Check
-                      if( (acesCheck(playerCards) === true) && (playerPoints > 21) ) {
-                           console.log('Player Aces? ' + acesCheck(playerCards));
-                           playerPoints -= 10;
-                      }
+                    //   if( (acesCheck(playerCards) === true) && (playerPoints > 21) ) {
+                    //        console.log('Player Aces? ' + acesCheck(playerCards));
+                    //        playerPoints -= 10;
+                    //   }
 
                       document.getElementById('player-total-points').innerHTML = 'Total points: ' + playerPoints;
 
@@ -490,12 +495,7 @@ var playHand = function(cash, bet) {
                            if( playerPoints === 21 ) {
 
                                 hitMeButton.removeEventListener( 'click', hitMe, false );
-                                hitMeButton.innerHTML = 'Blackjack!';
 
-                                //Hide action Buttons
-                                //document.getElementsByClassName('action-buttons')[0].style.display="none";
-
-                                // Need another action here to check for a tie
 
                            }
 
@@ -503,25 +503,23 @@ var playHand = function(cash, bet) {
                            if( playerPoints > 21 ) {
 
                                 hitMeButton.removeEventListener( 'click', hitMe, false );
-                                //hitMeButton.innerHTML = 'Busted!';
 
-                                //Hide action Buttons
                                 document.getElementsByClassName('action-buttons')[0].style.display="none";
+                                document.getElementById("hit-me-button").style.display="none";
+                                document.getElementById("stand-button").style.display="none";
 
-                                // House wins
-                                // Get setup for the next hand
+                                // Process winner and add action buttons back in there
+                                var winner = determineWinner(playerPoints, housePoints);
+                                var message = handOverMessage(playerPoints, housePoints, bet);
+                                document.getElementsByClassName('game-notices')[0].innerHTML = message;
+                                cash = updateCash(winner, cash, bet);
+                                document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
 
+                                document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
                                 document.getElementById("cash-out-button").style.display="inline-block";
                                 document.getElementById("next-hand-button").style.display="inline-block";
 
 
-                                var losses = bet;
-                                cash -= losses;
-                                document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
-                                document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You busted. The House won. You lost $' + losses + '.</div>';
-
-                                // Record the Winner
-                                winner = 'House';
 
 
                            }
@@ -567,10 +565,10 @@ var playHand = function(cash, bet) {
                                 housePoints = addCards( houseCards );
 
                                     //Aces Check
-                                    if( (acesCheck(houseCards) === true) && (housePoints > 21) ) {
-                                         console.log('House Aces? ' + acesCheck(houseCards));
-                                         housePoints -= 10;
-                                    }
+                                   //  if( (acesCheck(houseCards) === true) && (housePoints > 21) ) {
+                                   //       console.log('House Aces? ' + acesCheck(houseCards));
+                                   //       housePoints -= 10;
+                                   //  }
 
 
                                 console.log('Updated House Point Total: ' + housePoints);
@@ -598,36 +596,13 @@ var playHand = function(cash, bet) {
 
                                    if( housePoints >= 17 ) {
 
-
+                                        // Process winner and add action buttons back in there
                                         var winner = determineWinner(playerPoints, housePoints);
                                         var message = handOverMessage(playerPoints, housePoints, bet);
                                         document.getElementsByClassName('game-notices')[0].innerHTML = message;
-
-
-                                        // Update Cash
-                                        if( winner === 'Player' ) {
-
-                                             cash = updateCashWin(cash, bet);
-
-                                        } else if( winner === 'House' ) {
-
-                                             cash = updateCashLoss(cash, bet);
-
-                                        } else if( winner === 'Tie' ) {
-
-                                             cash = updateCashWin(cash, 0);
-
-                                        }
-
                                         cash = updateCash(winner, cash, bet);
-
-                                        console.log('Cash array: ' + cashArray);
-                                        console.log('Cards in the Deck remaining: ' + cards.length);
-                                        console.log('Winner: ' + winner);
-
                                         document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
 
-                                        // Get our action buttons back
                                         document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
                                         document.getElementById("cash-out-button").style.display="inline-block";
                                         document.getElementById("next-hand-button").style.display="inline-block";
@@ -640,86 +615,27 @@ var playHand = function(cash, bet) {
 
 
                               if( houseCards.length === 2 ) {
-                                   console.log('THIS SHOULD ONLY APPEAR ONCE. End of house card loop. House points = ' + housePoints );
 
-                                   if( ((playerPoints > housePoints) && (playerPoints <= 21)) || ((playerPoints <=21) && (housePoints > 21)) ) {
-
-                                        //document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You won the hand and added $' + bet + ' to your cash.</div>';
-                                        winner = 'Player';
-
-                                          // Custom message based on type of win
-                                          if(housePoints > 21) {
-                                               document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">The House busted. You won $' + bet + '.</div>';
-                                               //winner = 'Player';
-                                          }
-
-                                          if(housePoints <= 21) {
-                                               document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You were closer to 21 than the House. You won $' + bet + '.</div>';
-                                          }
-
-                                   }
-
-                                    else if( playerPoints === housePoints ) {
-
-                                         document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You tied the House and your bet of $' + bet + ' was returned.</div>';
-                                         winner = 'Tie';
-
-                                    }
-
-                                   else if( housePoints > playerPoints ) {
-
-                                        document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">The House won and you lost your bet of $' + bet + '.</div>';
-                                        winner = 'House';
-
-                                   }
-
-                                   console.log('DETERMINE WINNER');
-                                   // Determine Winner of hand
-                                   if( playerPoints > 21 ) {
-                                        winner = 'House';
-                                   } else if ( housePoints <= 21 && housePoints > playerPoints ) {
-                                        winner = 'House';
-                                   } else if ( playerPoints <= 21 && playerPoints > housePoints ){
-                                        winner = 'Player';
-                                   } else if ( playerPoints === housePoints ) {
-                                        winner = 'Tie';
-                                   }
-
-
-                                   // Update Cash
-                                   if( winner === 'Player' ) {
-
-                                        cash = updateCashWin(cash, bet);
-
-                                   } else if( winner === 'House' ) {
-
-                                        cash = updateCashLoss(cash, bet);
-
-                                   } else if( winner === 'Tie' ) {
-
-                                        cash = updateCashWin(cash, 0);
-
-                                   }
-
-                                   console.log('Cash array: ' + cashArray);
-                                   console.log('Cards in the Deck remaining: ' + cards.length);
-                                   console.log('Winner: ' + winner);
-
+                                   // Process winner and add action buttons back in there
+                                   var winner = determineWinner(playerPoints, housePoints);
+                                   var message = handOverMessage(playerPoints, housePoints, bet);
+                                   document.getElementsByClassName('game-notices')[0].innerHTML = message;
+                                   cash = updateCash(winner, cash, bet);
                                    document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
 
-                                   // Get our action buttons back
                                    document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
                                    document.getElementById("cash-out-button").style.display="inline-block";
                                    document.getElementById("next-hand-button").style.display="inline-block";
+
                               }
 
 
                          }
 
-          console.log('Cash array: ' + cashArray);
-          console.log('Cards in the Deck remaining: ' + cards.length);
-          console.log('Winner: ' + winner);
-
+          // console.log('Cash array: ' + cashArray);
+          // console.log('Cards in the Deck remaining: ' + cards.length);
+          // console.log('Winner: ' + winner);
+          //
           document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
 
 }
