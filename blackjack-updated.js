@@ -333,14 +333,12 @@ var playHand = function(cash, bet) {
 
                // Show the House Cards
 
-               for(i = 0; i < houseCards.length; i++) {
-
-                    var displayTextCard = '<div class="single-card">' + houseCards[i].name + ' (' + houseCards[i].value + ')</div>';
+               for( var j = 0; j < houseCards.length; j++) {
 
                     // Display Card Image
 
                          //Determine red or black
-                         var CardName = houseCards[i].name;
+                         var CardName = houseCards[j].name;
                          if( CardName.includes('Hearts') || CardName.includes('Diamonds') ) {
                               var cardClass = 'red';
                          } else {
@@ -348,16 +346,17 @@ var playHand = function(cash, bet) {
                          }
 
                     // For the House, only display the first card
-                    if ( i === 1 ) {
+
+                    if ( j === 1 ) {
+                         console.log('HOUSE CARDS FIRST');
                          var hideCard = 'card-back';
-                         var displayCardImage = '<div class="single-card-image ' + cardClass + ' ' + hideCard + '"><span class="card-content">' + houseCards[i].name + ' (' + houseCards[i].value + ')<div class="card-symbols">' + playerCards[i].symbol + '</span></div></div>';
+                         var displayCardImage = '<div class="single-card-image ' + cardClass + ' ' + hideCard + '"><span class="card-content">' + houseCards[j].name + ' (' + houseCards[j].value + ')<div class="card-symbols">' + houseCards[j].symbol + '</span></div></div>';
 
                     } else {
-                         var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + houseCards[i].name + ' (' + houseCards[i].value + ')<div class="card-symbols">' + playerCards[i].symbol + '</div></div>';
+                         var displayCardImage = '<div class="single-card-image ' + cardClass + '"><span class="card-content">' + houseCards[j].name + ' (' + houseCards[j].value + ')<div class="card-symbols">' + houseCards[j].symbol + '</span></div></div>';
 
                     }
-
-                    var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + houseCards[i].name + ' (' + houseCards[i].value + ')<div class="card-symbols">' + playerCards[i].symbol + '</div></div>';
+                    
                     document.getElementById('house-display-cards').innerHTML += displayCardImage;
 
                }
@@ -372,20 +371,35 @@ var playHand = function(cash, bet) {
                 var houseNaturalCheck = naturalCheck( houseCards );
 
                 if( (playerNaturalCheck === 'natural') && (houseNaturalCheck === 'natural') ) {
+
                      document.getElementsByClassName('action-buttons')[0].style.display="none";
                      document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You both got natural Blackjacks! Your bet of ' + bet + ' is returned.</div>';
                      cash = updateCashWin(cash, 0);
                      winner = 'Tie';
+
+                     document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                     document.getElementById("cash-out-button").style.display="inline-block";
+                     document.getElementById("next-hand-button").style.display="inline-block";
+
                 } else if( playerNaturalCheck === 'natural' ) {
+
                      var naturalBet = bet * 1.5;
                      bet = (bet + bet/2);
                      document.getElementsByClassName('action-buttons')[0].style.display="none";
                      document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You got a natural Blackjack! You won $' + naturalBet + '.</div>';
                      cash = updateCashWin(cash, bet);
                      winner = 'Player';
+
+                     document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                     document.getElementById("cash-out-button").style.display="inline-block";
+                     document.getElementById("next-hand-button").style.display="inline-block";
+
                 } else if( houseNaturalCheck === 'natural' ) {
 
                      document.getElementsByClassName('action-buttons')[0].style.display="none";
+                     document.getElementById("hit-me-button").style.display="none";
+                     document.getElementById("stand-button").style.display="none";
+
                      document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">The House got a natural Blackjack! You lost $' + bet + '.</div>';
                      cash = updateCashLoss(cash, bet);
                      winner = 'House';
@@ -394,12 +408,14 @@ var playHand = function(cash, bet) {
                      document.getElementById("cash-out-button").style.display="inline-block";
                      document.getElementById("next-hand-button").style.display="inline-block";
 
-                }
+                } else {
 
                 // Add action buttons
                 document.getElementsByClassName('action-buttons')[0].style.display="inline-block";
                 document.getElementById("hit-me-button").style.display="inline-block";
                 document.getElementById("stand-button").style.display="inline-block";
+
+               }
 
 
                 /********************************
