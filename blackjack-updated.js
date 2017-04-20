@@ -22,8 +22,8 @@ var  playerName,
      cashArray = [1000];
 
 // Let's get started, two questions
-//playerName = window.prompt( 'Please enter your name:' );
-playerName = 'Chris';
+playerName = window.prompt( 'Please enter your name:' );
+//playerName = 'Chris';
 document.getElementById('player-name').innerHTML = playerName;
 
 document.getElementById('cash').innerHTML += cash;
@@ -356,7 +356,7 @@ var playHand = function(cash, bet) {
                          var displayCardImage = '<div class="single-card-image ' + cardClass + '"><span class="card-content">' + houseCards[j].name + ' (' + houseCards[j].value + ')<div class="card-symbols">' + houseCards[j].symbol + '</span></div></div>';
 
                     }
-                    
+
                     document.getElementById('house-display-cards').innerHTML += displayCardImage;
 
                }
