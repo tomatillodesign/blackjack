@@ -132,6 +132,10 @@ a.nice-button:hover {
     filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='#0066cc', endColorstr='#52b5d5',GradientType=1 )";
 }
 
+.card-back .card-content {
+     display: none;
+}
+
 .single-card-image.black {
      border: 2px solid #000;
      color: #000;
