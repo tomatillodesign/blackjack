@@ -646,6 +646,73 @@ var takeTurn = function() {
 
 
 
+
+                              /********************************
+                                * If player stands, see who won and update everything according
+                                *
+                                *******************************/
+
+                              if( houseCards.length === 2 ) {
+
+                                   for(var j = 0; j === 1; j++) {
+
+                                   console.log('THIS SHOULD ONLY APPEAR ONCE. End of house card loop. House points = ' + housePoints );
+                                   console.log(houseCards.length);
+
+                                   if( ((playerPoints > housePoints) && (playerPoints <= 21)) || ((playerPoints <=21) && (housePoints > 21)) ) {
+
+                                      //Player Wins
+                                    //var winnings = bet * 2;
+                                      var winnings = parseInt(bet)*2;
+                                      console.log('Cash = ' + Number.isInteger(cash));
+                                      console.log('Winnings = ' + Number.isInteger(winnings));
+                                      //cash += winnings;
+                                    cash = cash + winnings;
+
+                                         console.log('Updated Cash = ' + cash);
+
+                                      document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+
+                                          // Custom message based on type of win
+                                          if(housePoints > 21) {
+                                               document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">The House busted. You won $' + bet + '.</div>';
+                                          }
+
+                                          if(housePoints <= 21) {
+                                               document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You were closer to 21 than the House. You won $' + bet + '.</div>';
+                                          }
+
+                                   }
+
+                                    else if( playerPoints === housePoints ) {
+
+                                         //Tie
+                                        //  var losses = parseInt(bet);
+                                        //  cash -= losses;
+                                         console.log('Cash = ' + cash);
+                                         console.log('Updated Cash = ' + cash);
+                                         document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+                                         document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You tied and your bet of $' + bet + ' is returned.</div>';
+
+                                    }
+
+                                   else if( housePoints > playerPoints ) {
+
+                                     var losses = parseInt(bet);
+                                     cash -= losses;
+                                     console.log('Cash = ' + cash);
+                                     console.log('Updated Cash = ' + cash);
+                                     document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+                                     document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">The House won. You lost $' + losses + '.</div>';
+
+                                   }
+
+                              }
+
+                         }
+
+
+
                            // Get setup for the next hand
 
                            document.getElementById("cash-out-button").style.display="inline-block";
