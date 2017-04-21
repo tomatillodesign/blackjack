@@ -1,0 +1,79 @@
+/********************************
+  * If player stands, see who won and update everything according
+  *
+  *******************************/
+
+if( housePoints >= 17 ) {
+     console.log('THIS SHOULD ONLY APPEAR ONCE. End of house card loop. House points = ' + housePoints );
+
+     if( ((playerPoints > housePoints) && (playerPoints <= 21)) || ((playerPoints <=21) && (housePoints > 21)) ) {
+
+          //document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You won the hand and added $' + bet + ' to your cash.</div>';
+          winner = 'Player';
+
+            // Custom message based on type of win
+            if(housePoints > 21) {
+                 document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">The House busted. You won $' + bet + '.</div>';
+                 //winner = 'Player';
+            }
+
+            if(housePoints <= 21) {
+                 document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You were closer to 21 than the House. You won $' + bet + '.</div>';
+            }
+
+     }
+
+     else if( playerPoints === housePoints ) {
+
+          document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">You tied the House and your bet of $' + bet + ' was returned.</div>';
+          winner = 'Tie';
+
+     }
+
+     else if( housePoints > playerPoints ) {
+
+          document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">The House won and you lost your bet of $' + bet + '.</div>';
+          winner = 'House';
+
+     }
+
+     console.log('DETERMINE WINNER');
+     // Determine Winner of hand
+     if( playerPoints > 21 ) {
+          winner = 'House';
+     } else if ( housePoints <= 21 && housePoints > playerPoints ) {
+          winner = 'House';
+     } else if ( playerPoints <= 21 && playerPoints > housePoints ){
+          winner = 'Player';
+     } else if ( playerPoints === housePoints ) {
+          winner = 'Tie';
+     }
+
+
+     // Update Cash
+     if( winner === 'Player' ) {
+
+          cash = updateCashWin(cash, bet);
+
+     } else if( winner === 'House' ) {
+
+          cash = updateCashLoss(cash, bet);
+
+     } else if( winner === 'Tie' ) {
+
+          cash = updateCashWin(cash, 0);
+
+     }
+
+     console.log('Cash array: ' + cashArray);
+     console.log('Cards in the Deck remaining: ' + cards.length);
+     console.log('Winner: ' + winner);
+
+     document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+
+     // Get our action buttons back
+     document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+     document.getElementById("cash-out-button").style.display="inline-block";
+     document.getElementById("next-hand-button").style.display="inline-block";
+
+}

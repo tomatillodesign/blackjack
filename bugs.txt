@@ -1,0 +1,5 @@
+Bugs
+
+House draws Ace later, but it doesn't go down to 1, just stays at 11 and house Busts
+
+Fix Cash Out button which doesn't do anything yet

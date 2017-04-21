@@ -1,0 +1,10 @@
+Roadmap & Features
+
+1) Add keyboard shortcuts (event listeners)
+
+2) Add high scores in local browser storage
+
+3) Add helper mode to calculate percentage of aces, 10's , etc
+Counting cards basically
+
+4) Create live website version that can save data (ie high scores)
