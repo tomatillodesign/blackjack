@@ -22,8 +22,13 @@ var  playerName,
      cashArray = [1000];
 
 // Let's get started, two questions
-playerName = window.prompt( 'Please enter your name:' );
-//playerName = 'Chris';
+//playerName = window.prompt( 'Please enter your name:' );
+playerName = 'Chris';
+
+     if(!playerName) {
+          playerName = 'Player One';
+     }
+
 document.getElementById('player-name').innerHTML = playerName;
 
 document.getElementById('cash').innerHTML += cash;
@@ -146,7 +151,7 @@ var getCard = function() {
 
      //Now remove that card so that it can't be played again
      var removed = cards.splice(cardnumber, 1);
-     //console.log('Removed card: ' + JSON.stringify(removed) );
+     console.log('Removed card: ' + JSON.stringify(removed) );
 
      //return displayTextCard;
      return newCard;
@@ -188,12 +193,6 @@ var naturalCheck = function( cardArray ) {
 };
 
 
-// var hitMeNewCard = function() {
-//
-//      var newCard = getCard();
-//      playerCards.push( newCard );
-//
-// };
 
 
 var determineWinner = function(playerPoints, housePoints) {
@@ -201,14 +200,19 @@ var determineWinner = function(playerPoints, housePoints) {
      // Determine Winner of hand
      if( playerPoints > 21 ) {
           winner = 'House';
+          console.log('House Condition 1');
      } else if ( housePoints > 21 && playerPoints <= 21 ) {
           winner = 'Player';
+          console.log('Player Condition 2');
      } else if ( housePoints <= 21 && housePoints > playerPoints ) {
           winner = 'House';
+          console.log('House Condition 3');
      } else if ( playerPoints <= 21 && playerPoints > housePoints ){
           winner = 'Player';
+          console.log('Player Condition 4');
      } else if ( playerPoints === housePoints ) {
           winner = 'Tie';
+          console.log('Tie Condition 5');
      }
 
      console.log('And the winner is: ' + winner);
@@ -228,8 +232,10 @@ var handOverMessage = function(playerPoints, housePoints, bet) {
           message = '<div id="status">The House busted. You won $' + bet + '.</div>';
      } else if ( housePoints <= 21 && housePoints > playerPoints ) {
           message = '<div id="status">The House won and you lost your bet of $' + bet + '.</div>';
-     } else if ( playerPoints <= 21 && playerPoints > housePoints ){
+     } else if ( playerPoints < 21 && playerPoints > housePoints ){
           message = '<div id="status">You were closer to 21 than the House. You won $' + bet + '.</div>';
+     } else if ( playerPoints === 21 && playerPoints > housePoints ){
+          message = '<div id="status">You got Blackjack! You won $' + bet + '.</div>';
      } else if ( playerPoints === housePoints ) {
           message = '<div id="status">You tied the House and your bet of $' + bet + ' was returned.</div>';
      }
@@ -372,6 +378,8 @@ var playHand = function(cash, bet) {
 
                 if( (playerNaturalCheck === 'natural') && (houseNaturalCheck === 'natural') ) {
 
+
+
                      document.getElementsByClassName('action-buttons')[0].style.display="none";
                      document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You both got natural Blackjacks! Your bet of ' + bet + ' is returned.</div>';
                      cash = updateCashWin(cash, 0);
@@ -382,6 +390,8 @@ var playHand = function(cash, bet) {
                      document.getElementById("next-hand-button").style.display="inline-block";
 
                 } else if( playerNaturalCheck === 'natural' ) {
+
+
 
                      var naturalBet = bet * 1.5;
                      bet = (bet + bet/2);
@@ -395,6 +405,13 @@ var playHand = function(cash, bet) {
                      document.getElementById("next-hand-button").style.display="inline-block";
 
                 } else if( houseNaturalCheck === 'natural' ) {
+
+                          //Show second hidden card once the dealer plays
+                          var secondHouseCardParent = document.getElementById('house-display-cards');
+                          var secondHouseCard = secondHouseCardParent.children[1];
+                          secondHouseCard.classList.remove("card-back");
+
+                     document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePoints;
 
                      document.getElementsByClassName('action-buttons')[0].style.display="none";
                      document.getElementById("hit-me-button").style.display="none";
@@ -469,7 +486,11 @@ var playHand = function(cash, bet) {
                  var hitMeButton = document.getElementById("hit-me-button");
                  hitMeButton.addEventListener( 'click', hitMe, false );
 
+                 console.log('Before HIT ME House Cards: ' +  JSON.stringify(houseCards));
+
                  function hitMe(e) {
+
+                      console.log('Start of HIT ME House Cards: ' +  JSON.stringify(houseCards));
 
                     //Get New Card
                          var hitMeCard = null;
@@ -482,6 +503,7 @@ var playHand = function(cash, bet) {
                       playerPoints = addCards( playerCards );
 
                       console.log('HIT ME TOTAL: ' + playerPoints);
+
 
 
                       // Display Card Image
@@ -519,6 +541,8 @@ var playHand = function(cash, bet) {
 
                            }
 
+                           console.log('MIDDLE of HIT ME House Cards: ' +  JSON.stringify(houseCards));
+
                            // HAND IS OVER, Don't Allow hits if player is Busted
                            if( playerPoints > 21 ) {
 
@@ -541,10 +565,12 @@ var playHand = function(cash, bet) {
                                 document.getElementById("cash-out-button").style.display="inline-block";
                                 document.getElementById("next-hand-button").style.display="inline-block";
 
-
+                                console.log('END of HIT ME House Cards - Player over 21 loop: ' +  JSON.stringify(houseCards));
 
 
                            }
+
+                           console.log('END of HIT ME House Cards: ' +  JSON.stringify(houseCards));
 
 
                       }
@@ -558,7 +584,11 @@ var playHand = function(cash, bet) {
                       var standButton = document.getElementById("stand-button");
                       standButton.addEventListener( 'click', stand, false );
 
+                      console.log('Right before STAND House Cards: ' +  JSON.stringify(houseCards));
+
                       function stand(e) {
+
+                           console.log('STAND House Cards: ' +  JSON.stringify(houseCards));
 
                            event.preventDefault();
 
@@ -580,7 +610,11 @@ var playHand = function(cash, bet) {
 
                                  document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePoints;
 
+                                 console.log('BEFORE House Loop under 17 Pts: ' +  JSON.stringify(houseCards));
+
                            for (; housePoints < 17; ) {
+
+                                console.log('START of House Loop under 17 Pts: ' +  JSON.stringify(houseCards));
 
                                 var newHouseCard = getCard();
                                 houseCards.push( newHouseCard );
@@ -588,11 +622,11 @@ var playHand = function(cash, bet) {
 
                                 housePoints = addCards( houseCards );
 
-                                    //Aces Check
-                                   //  if( (acesCheck(houseCards) === true) && (housePoints > 21) ) {
-                                   //       console.log('House Aces? ' + acesCheck(houseCards));
-                                   //       housePoints -= 10;
-                                   //  }
+                                    // Aces Check
+                                    if( (acesCheck(houseCards) === true) && (housePoints > 21) ) {
+                                         console.log('House Aces? ' + acesCheck(houseCards));
+                                         housePoints -= 10;
+                                    }
 
 
                                 console.log('Updated House Point Total: ' + housePoints);
@@ -602,16 +636,19 @@ var playHand = function(cash, bet) {
 
                                 // Display Card Image
 
+                                        var newHouseCardName = null;
+
                                      //Determine red or black
-                                     var newCardName = newHouseCard.name;
-                                     if( newCardName.includes('Hearts') || newCardName.includes('Diamonds') ) {
+                                     newHouseCardName = newHouseCard.name;
+                                     if( newHouseCardName.includes('Hearts') || newHouseCardName.includes('Diamonds') ) {
                                           var cardClass = 'red';
                                      } else {
                                           var cardClass = 'black';
                                      }
 
-                                var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + newHouseCard.name + ' (' + newHouseCard.value + ')<div class="card-symbols">' + newHouseCard.symbol + '</div></div>';
+                                var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + newHouseCardName + ' (' + newHouseCardValue + ')<div class="card-symbols">' + newHouseCard.symbol + '</div></div>';
                                 document.getElementById('house-display-cards').innerHTML += displayCardImage;
+                                console.log('Displayed House Cards: ' +  JSON.stringify(newHouseCardName));
 
                                    /********************************
                                      * If player stands, see who won and update everything according
@@ -621,6 +658,7 @@ var playHand = function(cash, bet) {
                                    if( housePoints >= 17 ) {
 
                                         console.log(' ---------- HAND OVER -------------- ');
+
 
                                         // Process winner and add action buttons back in there
                                         standButton.removeEventListener( 'click', stand, false );
@@ -633,6 +671,8 @@ var playHand = function(cash, bet) {
                                         document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
                                         document.getElementById("cash-out-button").style.display="inline-block";
                                         document.getElementById("next-hand-button").style.display="inline-block";
+
+
 
                                    }
 
@@ -658,6 +698,8 @@ var playHand = function(cash, bet) {
                                    document.getElementById("next-hand-button").style.display="inline-block";
 
                               }
+
+
 
 
                          }
