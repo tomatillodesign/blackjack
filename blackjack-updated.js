@@ -272,6 +272,8 @@ var updateCash = function(winner, cash, bet) {
  *
  *******************************/
 
+var houseCards = [];
+
 var playHand = function(cash, bet) {
 
           console.log('START of Loop');
@@ -376,9 +378,9 @@ var playHand = function(cash, bet) {
                 var playerNaturalCheck = naturalCheck( playerCards );
                 var houseNaturalCheck = naturalCheck( houseCards );
 
+                console.log('NATURAL CHECK HOUSE CARDS: ' + JSON.stringify(houseCards));
+
                 if( (playerNaturalCheck === 'natural') && (houseNaturalCheck === 'natural') ) {
-
-
 
                      document.getElementsByClassName('action-buttons')[0].style.display="none";
                      document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You both got natural Blackjacks! Your bet of ' + bet + ' is returned.</div>';
@@ -390,8 +392,6 @@ var playHand = function(cash, bet) {
                      document.getElementById("next-hand-button").style.display="inline-block";
 
                 } else if( playerNaturalCheck === 'natural' ) {
-
-
 
                      var naturalBet = bet * 1.5;
                      bet = (bet + bet/2);
@@ -575,6 +575,8 @@ var playHand = function(cash, bet) {
 
                       }
 
+                      console.log('Before STAND EVENT LISTENER House Cards: ' +  JSON.stringify(houseCards));
+
 
                       /********************************
                       * Stand Functionality
@@ -587,6 +589,19 @@ var playHand = function(cash, bet) {
                       console.log('Right before STAND House Cards: ' +  JSON.stringify(houseCards));
 
                       function stand(e) {
+
+                           for( var k = 0; k === 0; k++ ) {
+                                console.log('NEW TEST FUNCTION STAND House Cards SHOULD ONLY RUN ONCE: ' +  JSON.stringify(houseCards));
+                           }
+
+                      }
+
+                      function test() {
+
+                           // House too many cards problem is right HERE
+                           // houseCards is getting the wrong variables from a past hand
+                           // Need to make sure it's getting the correct cards
+
 
                            console.log('STAND House Cards: ' +  JSON.stringify(houseCards));
 
