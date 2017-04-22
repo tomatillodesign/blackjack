@@ -588,10 +588,15 @@ var playHand = function(cash, bet) {
 
                       console.log('Right before STAND House Cards: ' +  JSON.stringify(houseCards));
 
+
+                      var k = 0;
                       function stand(e) {
 
-                           for( var k = 0; k === 0; k++ ) {
+                           for( ; k === 0; ) {
+
+                              // This function is still running twice for some reason
                                 console.log('NEW TEST FUNCTION STAND House Cards SHOULD ONLY RUN ONCE: ' +  JSON.stringify(houseCards));
+                                k++;
                            }
 
                       }
