@@ -4,6 +4,7 @@ House draws Ace later, but it doesn't go down to 1, just stays at 11 and house B
 
 Fix Cash Out button which doesn't do anything yet
 
+Sometimes score/winner checks twice, so a losing $100 bet incorrectly deducts $200
 
 
 Sometimes the Player draws an extra card when it should have only drawn one
