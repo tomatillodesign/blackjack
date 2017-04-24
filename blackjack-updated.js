@@ -267,6 +267,17 @@ var updateCash = function(winner, cash, bet) {
 };
 
 
+var dealHand = function() {
+
+     playerCards = [getCard(), getCard()];
+     playerPoints = addCards( playerCards );
+
+     houseCards = [getCard(), getCard()];
+     housePoints = addCards( houseCards );
+
+}
+
+
 /********************************
  * The Main Game Loop
  *
@@ -303,14 +314,17 @@ var playHand = function(cash, bet) {
            *
            *******************************/
 
-          var playerCards = [getCard(), getCard()];
-          var playerPoints = [];
+          // var playerCards = [getCard(), getCard()];
+          // var playerPoints = [];
+          //
+          // var houseCards = [getCard(), getCard()];
+          // var housePoints = [];
+          //
+          // playerPoints = addCards( playerCards );
+          // housePoints = addCards( houseCards );
 
-          var houseCards = [getCard(), getCard()];
-          var housePoints = [];
-
-          playerPoints = addCards( playerCards );
-          housePoints = addCards( houseCards );
+          //Trying this with an external function instead
+          dealHand();
 
           console.log('Initial Player Cards: ' +  JSON.stringify(playerCards));
           console.log('Initial Player Points: ' +  playerPoints);
@@ -590,7 +604,9 @@ var playHand = function(cash, bet) {
 
 
                       var k = 0;
-                      function stand(e) {
+                      function standTest(e) {
+
+                           standButton.removeEventListener( 'click', stand, false );
 
                            for( ; k === 0; ) {
 
@@ -601,18 +617,28 @@ var playHand = function(cash, bet) {
 
                       }
 
-                      function test() {
+                      function stand(e) {
+
+                           event.preventDefault();
+                           standButton.removeEventListener( 'click', stand, false );
+                           hitMeButton.removeEventListener( 'click', hitMe, false );
+
+
+
+                           var standAction = function(playerCards, houseCards) {
+
+
 
                            // House too many cards problem is right HERE
                            // houseCards is getting the wrong variables from a past hand
                            // Need to make sure it's getting the correct cards
 
 
-                           console.log('STAND House Cards: ' +  JSON.stringify(houseCards));
+                           console.log('NEW TEST FUNCTION STAND House Cards SHOULD ONLY RUN ONCE: ' +  JSON.stringify(houseCards));
 
-                           event.preventDefault();
 
-                           hitMeButton.removeEventListener( 'click', hitMe, false );
+
+
 
                            //Hide action Buttons
                            document.getElementsByClassName('action-buttons')[0].style.display="none";
@@ -696,12 +722,30 @@ var playHand = function(cash, bet) {
 
                                    }
 
+                                   // else if( houseCards.length === 2 ) {
+                                   //
+                                   //      console.log(' ---------- HAND OVER -------------- ');
+                                   //
+                                   //      // Process winner and add action buttons back in there
+                                   //      standButton.removeEventListener( 'click', stand, false );
+                                   //      var winner = determineWinner(playerPoints, housePoints);
+                                   //      var message = handOverMessage(playerPoints, housePoints, bet);
+                                   //      document.getElementsByClassName('game-notices')[0].innerHTML = message;
+                                   //      cash = updateCash(winner, cash, bet);
+                                   //      document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+                                   //
+                                   //      document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                                   //      document.getElementById("cash-out-button").style.display="inline-block";
+                                   //      document.getElementById("next-hand-button").style.display="inline-block";
+                                   //
+                                   // }
+
 
 
                               }
 
 
-                              if( houseCards.length === 2 ) {
+                              if( housePoints >= 17 ) {
 
                                    console.log(' ---------- HAND OVER -------------- ');
 
@@ -723,6 +767,10 @@ var playHand = function(cash, bet) {
 
 
                          }
+
+                         standAction(playerCards, houseCards);
+
+                    }
 
           // console.log('Cash array: ' + cashArray);
           // console.log('Cards in the Deck remaining: ' + cards.length);
