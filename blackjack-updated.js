@@ -78,63 +78,67 @@ function acesCheck( cardArray ) {
 
 
 var cards = [];
-cards.push({name: 'Two of Clubs', value: 2, symbol: '&clubs;'});
-cards.push({name: 'Three of Clubs', value: 3, symbol: '&clubs;'});
-cards.push({name: 'Four of Clubs', value: 4, symbol: '&clubs;'});
-cards.push({name: 'Five of Clubs', value: 5, symbol: '&clubs;'});
-cards.push({name: 'Six of Clubs', value: 6, symbol: '&clubs;'});
-cards.push({name: 'Seven of Clubs', value: 7, symbol: '&clubs;'});
-cards.push({name: 'Eight of Clubs', value: 8, symbol: '&clubs;'});
-cards.push({name: 'Nine of Clubs', value: 9, symbol: '&clubs;'});
-cards.push({name: 'Ten of Clubs', value: 10, symbol: '&clubs;'});
-cards.push({name: 'Jack of Clubs', value: 10, symbol: '&clubs;'});
-cards.push({name: 'Queen of Clubs', value: 10, symbol: '&clubs;'});
-cards.push({name: 'King of Clubs', value: 10, symbol: '&clubs;'});
-cards.push({name: 'Ace of Clubs', value: 11, symbol: '&clubs;'});
 
-cards.push({name: 'Two of Diamonds', value: 2, symbol: '&diams;'});
-cards.push({name: 'Three of Diamonds', value: 3, symbol: '&diams;'});
-cards.push({name: 'Four of Diamonds', value: 4, symbol: '&diams;'});
-cards.push({name: 'Five of Diamonds', value: 5, symbol: '&diams;'});
-cards.push({name: 'Six of Diamonds', value: 6, symbol: '&diams;'});
-cards.push({name: 'Seven of Diamonds', value: 7, symbol: '&diams;'});
-cards.push({name: 'Eight of Diamonds', value: 8, symbol: '&diams;'});
-cards.push({name: 'Nine of Diamonds', value: 9, symbol: '&diams;'});
-cards.push({name: 'Ten of Diamonds', value: 10, symbol: '&diams;'});
-cards.push({name: 'Jack of Diamonds', value: 10, symbol: '&diams;'});
-cards.push({name: 'Queen of Diamonds', value: 10, symbol: '&diams;'});
-cards.push({name: 'King of Diamonds', value: 10, symbol: '&diams;'});
-cards.push({name: 'Ace of Diamonds', value: 11, symbol: '&diams;'});
+// Let's play with 6 decks of cards
+for(var k=0; k < 6; k++) {
 
-cards.push({name: 'Two of Hearts', value: 2, symbol: '&hearts;'});
-cards.push({name: 'Three of Hearts', value: 3, symbol: '&hearts;'});
-cards.push({name: 'Four of Hearts', value: 4, symbol: '&hearts;'});
-cards.push({name: 'Five of Hearts', value: 5, symbol: '&hearts;'});
-cards.push({name: 'Six of Hearts', value: 6, symbol: '&hearts;'});
-cards.push({name: 'Seven of Hearts', value: 7, symbol: '&hearts;'});
-cards.push({name: 'Eight of Hearts', value: 8, symbol: '&hearts;'});
-cards.push({name: 'Nine of Hearts', value: 9, symbol: '&hearts;'});
-cards.push({name: 'Ten of Hearts', value: 10, symbol: '&hearts;'});
-cards.push({name: 'Jack of Hearts', value: 10, symbol: '&hearts;'});
-cards.push({name: 'Queen of Hearts', value: 10, symbol: '&hearts;'});
-cards.push({name: 'King of Hearts', value: 10, symbol: '&hearts;'});
-cards.push({name: 'Ace of Hearts', value: 11, symbol: '&hearts;'});
+     cards.push({name: 'Two of Clubs', value: 2, symbol: '&clubs;'});
+     cards.push({name: 'Three of Clubs', value: 3, symbol: '&clubs;'});
+     cards.push({name: 'Four of Clubs', value: 4, symbol: '&clubs;'});
+     cards.push({name: 'Five of Clubs', value: 5, symbol: '&clubs;'});
+     cards.push({name: 'Six of Clubs', value: 6, symbol: '&clubs;'});
+     cards.push({name: 'Seven of Clubs', value: 7, symbol: '&clubs;'});
+     cards.push({name: 'Eight of Clubs', value: 8, symbol: '&clubs;'});
+     cards.push({name: 'Nine of Clubs', value: 9, symbol: '&clubs;'});
+     cards.push({name: 'Ten of Clubs', value: 10, symbol: '&clubs;'});
+     cards.push({name: 'Jack of Clubs', value: 10, symbol: '&clubs;'});
+     cards.push({name: 'Queen of Clubs', value: 10, symbol: '&clubs;'});
+     cards.push({name: 'King of Clubs', value: 10, symbol: '&clubs;'});
+     cards.push({name: 'Ace of Clubs', value: 11, symbol: '&clubs;'});
 
-cards.push({name: 'Two of Spades', value: 2, symbol: '&spades;'});
-cards.push({name: 'Three of Spades', value: 3, symbol: '&spades;'});
-cards.push({name: 'Four of Spades', value: 4, symbol: '&spades;'});
-cards.push({name: 'Five of Spades', value: 5, symbol: '&spades;'});
-cards.push({name: 'Six of Spades', value: 6, symbol: '&spades;'});
-cards.push({name: 'Seven of Spades', value: 7, symbol: '&spades;'});
-cards.push({name: 'Eight of Spades', value: 8, symbol: '&spades;'});
-cards.push({name: 'Nine of Spades', value: 9, symbol: '&spades;'});
-cards.push({name: 'Ten of Spades', value: 10, symbol: '&spades;'});
-cards.push({name: 'Jack of Spades', value: 10, symbol: '&spades;'});
-cards.push({name: 'Queen of Spades', value: 10, symbol: '&spades;'});
-cards.push({name: 'King of Spades', value: 10, symbol: '&spades;'});
-cards.push({name: 'Ace of Spades', value: 11, symbol: '&spades;'});
+     cards.push({name: 'Two of Diamonds', value: 2, symbol: '&diams;'});
+     cards.push({name: 'Three of Diamonds', value: 3, symbol: '&diams;'});
+     cards.push({name: 'Four of Diamonds', value: 4, symbol: '&diams;'});
+     cards.push({name: 'Five of Diamonds', value: 5, symbol: '&diams;'});
+     cards.push({name: 'Six of Diamonds', value: 6, symbol: '&diams;'});
+     cards.push({name: 'Seven of Diamonds', value: 7, symbol: '&diams;'});
+     cards.push({name: 'Eight of Diamonds', value: 8, symbol: '&diams;'});
+     cards.push({name: 'Nine of Diamonds', value: 9, symbol: '&diams;'});
+     cards.push({name: 'Ten of Diamonds', value: 10, symbol: '&diams;'});
+     cards.push({name: 'Jack of Diamonds', value: 10, symbol: '&diams;'});
+     cards.push({name: 'Queen of Diamonds', value: 10, symbol: '&diams;'});
+     cards.push({name: 'King of Diamonds', value: 10, symbol: '&diams;'});
+     cards.push({name: 'Ace of Diamonds', value: 11, symbol: '&diams;'});
 
+     cards.push({name: 'Two of Hearts', value: 2, symbol: '&hearts;'});
+     cards.push({name: 'Three of Hearts', value: 3, symbol: '&hearts;'});
+     cards.push({name: 'Four of Hearts', value: 4, symbol: '&hearts;'});
+     cards.push({name: 'Five of Hearts', value: 5, symbol: '&hearts;'});
+     cards.push({name: 'Six of Hearts', value: 6, symbol: '&hearts;'});
+     cards.push({name: 'Seven of Hearts', value: 7, symbol: '&hearts;'});
+     cards.push({name: 'Eight of Hearts', value: 8, symbol: '&hearts;'});
+     cards.push({name: 'Nine of Hearts', value: 9, symbol: '&hearts;'});
+     cards.push({name: 'Ten of Hearts', value: 10, symbol: '&hearts;'});
+     cards.push({name: 'Jack of Hearts', value: 10, symbol: '&hearts;'});
+     cards.push({name: 'Queen of Hearts', value: 10, symbol: '&hearts;'});
+     cards.push({name: 'King of Hearts', value: 10, symbol: '&hearts;'});
+     cards.push({name: 'Ace of Hearts', value: 11, symbol: '&hearts;'});
 
+     cards.push({name: 'Two of Spades', value: 2, symbol: '&spades;'});
+     cards.push({name: 'Three of Spades', value: 3, symbol: '&spades;'});
+     cards.push({name: 'Four of Spades', value: 4, symbol: '&spades;'});
+     cards.push({name: 'Five of Spades', value: 5, symbol: '&spades;'});
+     cards.push({name: 'Six of Spades', value: 6, symbol: '&spades;'});
+     cards.push({name: 'Seven of Spades', value: 7, symbol: '&spades;'});
+     cards.push({name: 'Eight of Spades', value: 8, symbol: '&spades;'});
+     cards.push({name: 'Nine of Spades', value: 9, symbol: '&spades;'});
+     cards.push({name: 'Ten of Spades', value: 10, symbol: '&spades;'});
+     cards.push({name: 'Jack of Spades', value: 10, symbol: '&spades;'});
+     cards.push({name: 'Queen of Spades', value: 10, symbol: '&spades;'});
+     cards.push({name: 'King of Spades', value: 10, symbol: '&spades;'});
+     cards.push({name: 'Ace of Spades', value: 11, symbol: '&spades;'});
+
+}
 
 var getCard = function() {
 
@@ -314,15 +318,6 @@ var playHand = function(cash, bet) {
            *
            *******************************/
 
-          // var playerCards = [getCard(), getCard()];
-          // var playerPoints = [];
-          //
-          // var houseCards = [getCard(), getCard()];
-          // var housePoints = [];
-          //
-          // playerPoints = addCards( playerCards );
-          // housePoints = addCards( houseCards );
-
           //Trying this with an external function instead
           dealHand();
 
@@ -330,6 +325,7 @@ var playHand = function(cash, bet) {
           console.log('Initial Player Points: ' +  playerPoints);
           console.log('Initial House Cards: ' +  JSON.stringify(houseCards));
           console.log('Initial House Points: ' +  housePoints);
+          console.log('Remaining cards: ' +  cards.length);
 
                // Show the Player Cards
                for(i = 0; i < playerCards.length; i++) {
@@ -792,7 +788,7 @@ var handSetup = function() {
 
           // Set default bet amount, can be changed by user
           betAmountDefault = document.getElementById( 'bet-amount' );
-          betAmountDefault.value = 50;
+          betAmountDefault.value = 100;
 
           var placeBet = document.getElementById("the-bet");
           placeBet.addEventListener( 'submit', returnBetAmount, false );
