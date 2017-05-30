@@ -33,6 +33,14 @@ Let's Do This
      document.getElementById('cash').innerHTML += cash;
 
 
+// Some Math Functions
+
+function getRandomInt(min, max) {
+   min = Math.ceil(min);
+   max = Math.floor(max);
+   return Math.floor(Math.random() * (max - min)) + min;
+}
+
 
 // Setup the Cards
 
@@ -101,6 +109,158 @@ for(var k=0; k < 1; k++) {
 
 
 
+var getCard = function() {
+
+     //Pull a random card from the deck
+     var cardnumber = getRandomInt(0, cards.length);
+
+          //Make sure there is a card at that number
+          if( typeof cards[cardnumber] == 'undefined' ) { cardnumber = getRandomInt(0, 51); }
+
+     var displayTextCard = '<div class="single-card">' + cards[cardnumber].name + ' (' + cards[cardnumber].value + ')</div>';
+
+     // Create a new variable object that can be re-used later, because this function is returning the card object
+     var newCard = cards[cardnumber];
+
+     //Now remove that card so that it can't be played again
+     var removed = cards.splice(cardnumber, 1);
+     console.log('Removed card: ' + JSON.stringify(removed) );
+
+     //return displayTextCard;
+     return newCard;
+}
+
+
+var dealHand = function() {
+
+     playerCards = [getCard(), getCard()];
+     playerPoints = addCards( playerCards );
+
+     houseCards = [getCard(), getCard()];
+     housePoints = addCards( houseCards );
+
+}
+
+
+
+// Custom Function to get Card Totals out of array
+var cardTotal = 0;
+function addCards( cardArray ) {
+
+     cardTotal = 0;
+
+     for(i = 0; i < cardArray.length; i++) {
+          cardTotal += cardArray[i].value;
+     }
+
+     return cardTotal;
+}
+
+
+
+// Custom Function to check for Aces, will return TRUE if Aces
+function acesCheck( cardArray ) {
+
+     var newCardName;
+
+     for(i = 0; i < cardArray.length; i++) {
+          newCardName += cardArray[i].name;
+          var aces = newCardName.includes('Ace');
+
+          if(aces === true) {
+               return true;
+          }
+     }
+
+}
+
+
+
+var naturalCheck = function( cardArray ) {
+
+     points = addCards( cardArray );
+
+     if( points === 21 ) {
+          var natural = 'natural';
+          console.log( 'Natural - YEP');
+          console.log('NATURAL CHECK: ' + JSON.stringify(cardArray));
+          return natural;
+     }
+
+     else {
+          return;
+     }
+
+};
+
+
+
+
+var determineWinner = function(playerPoints, housePoints) {
+
+     // Determine Winner of hand
+     if( playerPoints > 21 ) {
+          winner = 'House';
+          console.log('House Condition 1');
+     } else if ( housePoints > 21 && playerPoints <= 21 ) {
+          winner = 'Player';
+          console.log('Player Condition 2');
+     } else if ( housePoints <= 21 && housePoints > playerPoints ) {
+          winner = 'House';
+          console.log('House Condition 3');
+     } else if ( playerPoints <= 21 && playerPoints > housePoints ){
+          winner = 'Player';
+          console.log('Player Condition 4');
+     } else if ( playerPoints === housePoints ) {
+          winner = 'Tie';
+          console.log('Tie Condition 5');
+     }
+
+     console.log('And the winner is: ' + winner);
+
+     return winner;
+
+};
+
+var handOverMessage = function(playerPoints, housePoints, bet) {
+
+     var message;
+
+     // Determine Winner of hand
+     if( playerPoints > 21 ) {
+          message = '<div id="status">You busted and lost your bet of $' + bet + '.</div>';
+     } else if ( housePoints > 21 && playerPoints <= 21) {
+          message = '<div id="status">The House busted. You won $' + bet + '.</div>';
+     } else if ( housePoints <= 21 && housePoints > playerPoints ) {
+          message = '<div id="status">The House won and you lost your bet of $' + bet + '.</div>';
+     } else if ( playerPoints < 21 && playerPoints > housePoints ){
+          message = '<div id="status">You were closer to 21 than the House. You won $' + bet + '.</div>';
+     } else if ( playerPoints === 21 && playerPoints > housePoints ){
+          message = '<div id="status">You got Blackjack! You won $' + bet + '.</div>';
+     } else if ( playerPoints === housePoints ) {
+          message = '<div id="status">You tied the House and your bet of $' + bet + ' was returned.</div>';
+     }
+
+     return message;
+
+};
+
+
+
+
+
+var gameOver = function() {
+
+     document.getElementById("cash-out-button").style.display="none";
+     document.getElementById("next-hand-button").style.display="none";
+     document.getElementById("hit-me-button").style.display="none";
+     document.getElementById("stand-button").style.display="none";
+     document.getElementById("bet-amount-display").style.display="none";
+     document.getElementsByClassName('action-buttons')[1].style.display="none";
+
+     document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You have lost everything. Game Over!</div>';
+
+}
 
 
 
@@ -139,7 +299,7 @@ var newHand = function( cash ) {
           var betAmount = document.getElementById( 'bet-amount' );
           bet = parseInt(betAmount.value);
 
-               if(bet > cash) {
+               if( bet > cash ) {
 
                     window.alert('Your bet must be less than or equal to your cash on hand.');
                     return;
@@ -152,12 +312,220 @@ var newHand = function( cash ) {
           console.log('Bet Amount: $' + bet);
           document.getElementById("bet-amount-display").innerHTML = 'Your bet: $' + bet;
 
-          cash -= bet;
+
+          //Trying this with an external function instead
+          dealHand();
+
+          console.log('START of Loop');
+          console.log('Cash: ' + cash);
+          console.log('Initial Player Cards: ' +  JSON.stringify(playerCards));
+          console.log('Initial Player Points: ' +  playerPoints);
+          console.log('Initial House Cards: ' +  JSON.stringify(houseCards));
+          console.log('Initial House Points: ' +  housePoints);
+          console.log('Remaining cards: ' +  cards.length);
+
+
+          // Show the Player Cards
+          for(i = 0; i < playerCards.length; i++) {
+
+               var displayTextCard = '<div class="single-card">' + playerCards[i].name + ' (' + playerCards[i].value + ')</div>';
+
+               // Display Card Image
+
+                    //Determine red or black
+                    var CardName = playerCards[i].name;
+                    if( CardName.includes('Hearts') || CardName.includes('Diamonds') ) {
+                         var cardClass = 'red';
+                    } else {
+                         var cardClass = 'black';
+                    }
+
+               var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + playerCards[i].name + ' (' + playerCards[i].value + ')<div class="card-symbols">' + playerCards[i].symbol + '</div></div>';
+               document.getElementById('player-display-cards').innerHTML += displayCardImage;
+
+               document.getElementById('player-total-points').innerHTML = 'Total Points: ' + playerPoints;
+
+          }
+
+
+          // Show the House Cards
+
+          for( var j = 0; j < houseCards.length; j++) {
+
+               // Display Card Image
+
+                    //Determine red or black
+                    var CardName = houseCards[j].name;
+                    if( CardName.includes('Hearts') || CardName.includes('Diamonds') ) {
+                         var cardClass = 'red';
+                    } else {
+                         var cardClass = 'black';
+                    }
+
+               // For the House, only display the first card
+
+               if ( j === 1 ) {
+                    var hideCard = 'card-back';
+                    var displayCardImage = '<div class="single-card-image ' + cardClass + ' ' + hideCard + '"><span class="card-content">' + houseCards[j].name + ' (' + houseCards[j].value + ')<div class="card-symbols">' + houseCards[j].symbol + '</span></div></div>';
+
+               } else {
+                    var displayCardImage = '<div class="single-card-image ' + cardClass + '"><span class="card-content">' + houseCards[j].name + ' (' + houseCards[j].value + ')<div class="card-symbols">' + houseCards[j].symbol + '</span></div></div>';
+
+               }
+
+               document.getElementById('house-display-cards').innerHTML += displayCardImage;
+
+          }
+
+
+
+          /********************************
+           * Check for Naturals
+           *
+           *******************************/
+
+           var playerNaturalCheck = naturalCheck( playerCards );
+           var houseNaturalCheck = naturalCheck( houseCards );
+
+           if( (playerNaturalCheck === 'natural') && (houseNaturalCheck === 'natural') ) {
+
+                document.getElementsByClassName('action-buttons')[0].style.display="none";
+                document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You both got natural Blackjacks! Your bet of ' + bet + ' is returned.</div>';
+                cash = updateCashWin(cash, 0);
+                winner = 'Tie';
+
+                document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                document.getElementById("cash-out-button").style.display="inline-block";
+                document.getElementById("next-hand-button").style.display="inline-block";
+
+           } else if( playerNaturalCheck === 'natural' ) {
+
+                var naturalBet = bet * 1.5;
+                bet = (bet + bet/2);
+                document.getElementsByClassName('action-buttons')[0].style.display="none";
+                document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You got a natural Blackjack! You won $' + naturalBet + '.</div>';
+                cash = updateCashWin(cash, bet);
+                winner = 'Player';
+
+                document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                document.getElementById("cash-out-button").style.display="inline-block";
+                document.getElementById("next-hand-button").style.display="inline-block";
+
+           } else if( houseNaturalCheck === 'natural' ) {
+
+                     //Show second hidden card once the dealer plays
+                     var secondHouseCardParent = document.getElementById('house-display-cards');
+                     var secondHouseCard = secondHouseCardParent.children[1];
+                     secondHouseCard.classList.remove("card-back");
+
+                document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePoints;
+
+                document.getElementsByClassName('action-buttons')[0].style.display="none";
+                document.getElementById("hit-me-button").style.display="none";
+                document.getElementById("stand-button").style.display="none";
+
+                document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">The House got a natural Blackjack! You lost $' + bet + '.</div>';
+                cash = updateCashLoss(cash, bet);
+                winner = 'House';
+
+                document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                document.getElementById("cash-out-button").style.display="inline-block";
+                document.getElementById("next-hand-button").style.display="inline-block";
+
+           } else {
+
+           // Add action buttons
+           document.getElementsByClassName('action-buttons')[0].style.display="inline-block";
+           document.getElementById("hit-me-button").style.display="inline-block";
+           document.getElementById("stand-button").style.display="inline-block";
+
+          }
+
+
+
+          if( (playerPoints === 9 || playerPoints === 10 || playerPoints === 11 ) && (cash >= bet*2) ) {
+
+               document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">Would you like to double-down? <a href="#" id="double-down" class="nice-button">Yes</a></div>';
+
+               var doubleDown = document.getElementById("double-down");
+               doubleDown.addEventListener( 'click', doubleDownUpdateBet, false );
+
+               function doubleDownUpdateBet(e) {
+
+                    event.preventDefault();
+                    bet = bet * 2;
+                    console.log('New Bet (Double Down): $' + bet);
+
+                    doubleDown.removeEventListener( 'click', doubleDownUpdateBet, false );
+                    document.getElementById("bet-amount-display").innerHTML = 'Your bet: $' + bet;
+                    document.getElementsByClassName('game-notices')[0].innerHTML = '';
+
+
+               }
+
+          }
+
+
+
+          /********************************
+          * Stand Functionality
+          *
+          *******************************/
+
+          var standButton = document.getElementById("stand-button");
+          standButton.addEventListener( 'click', stand, false );
+
+          console.log('Right before STAND House Cards: ' +  JSON.stringify(houseCards));
+
+          function stand(e) {
+
+               event.preventDefault();
+               standButton.removeEventListener( 'click', stand, false );
+               //hitMeButton.removeEventListener( 'click', hitMe, false );
+
+               var standAction = function(playerCards, houseCards) {
+
+                    //Hide action Buttons
+                    document.getElementsByClassName('action-buttons')[0].style.display="none";
+
+                    /********************************
+                    * Now it's the House's turn
+                    *
+                    *******************************/
+
+                         //Show second hidden card once the dealer plays
+                         var secondHouseCardParent = document.getElementById('house-display-cards');
+                         var secondHouseCard = secondHouseCardParent.children[1];
+                         secondHouseCard.classList.remove("card-back");
+
+                         document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePoints;
+
+                         console.log('BEFORE House Loop under 17 Pts: ' +  JSON.stringify(houseCards));
+
+                    }
+
+                    //Let's determine who won the hand
+                    var winner = determineWinner(playerPoints, housePoints);
+
+                    var message = handOverMessage(playerPoints, housePoints, bet);
+                    document.getElementsByClassName('game-notices')[0].innerHTML = message;   
+
+               }
+
+
+
+
+
+          // Check if the Game is Over
+          if( cash <= 0 ) {
+               gameOver();
+          }
 
      }
 
 }
 
-for (step = 0; step < 5; step++) {
+if( cash > 0 ) {
      newHand( cash );
+     console.log('START GAME');
 }
