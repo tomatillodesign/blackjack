@@ -1,5 +1,7 @@
 *Bugs*
 
+Player starts with 2 aces, total score = 22 but should equal 12
+
 House draws Ace later, but it doesn't go down to 1, just stays at 11 and house Busts
 
 Fix Cash Out button which doesn't do anything yet
