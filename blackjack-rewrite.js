@@ -7,7 +7,7 @@ Let's Do This
 // Setup Vars
 
      var playerName,
-     cash = 200,
+     cash = 1000,
      bet,
      teachingMode,
      numberOfDecks,
@@ -439,9 +439,11 @@ var newHand = function( cash ) {
                 cash = updateCashWin(cash, 0);
                 winner = 'Tie';
 
-                document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                document.getElementsByClassName('action-buttons')[0].style.display="inline-block";
                 document.getElementById("cash-out-button").style.display="inline-block";
                 document.getElementById("next-hand-button").style.display="inline-block";
+
+                document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
 
            } else if( playerNaturalCheck === 'natural' ) {
 
@@ -452,9 +454,11 @@ var newHand = function( cash ) {
                 cash = updateCashWin(cash, bet);
                 winner = 'Player';
 
-                document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                document.getElementsByClassName('action-buttons')[0].style.display="inline-block";
                 document.getElementById("cash-out-button").style.display="inline-block";
                 document.getElementById("next-hand-button").style.display="inline-block";
+
+                document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
 
            } else if( houseNaturalCheck === 'natural' ) {
 
@@ -473,9 +477,11 @@ var newHand = function( cash ) {
                 cash = updateCashLoss(cash, bet);
                 winner = 'House';
 
-                document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                document.getElementsByClassName('action-buttons')[0].style.display="inline-block";
                 document.getElementById("cash-out-button").style.display="inline-block";
                 document.getElementById("next-hand-button").style.display="inline-block";
+
+                document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
 
            } else {
 
@@ -528,6 +534,14 @@ var newHand = function( cash ) {
           function hitMe(e) {
 
                //event.preventDefault();
+
+               // Remove Double Down Option if it was there in the first place
+               if( (playerPoints === 9 || playerPoints === 10 || playerPoints === 11 ) && (cash >= bet*2) ) {
+
+                    doubleDown.removeEventListener( 'click', doubleDownUpdateBet, false );
+                    document.getElementsByClassName('game-notices')[0].innerHTML = '';
+
+               }
 
                console.log('Start of HIT ME Player Cards: ' +  JSON.stringify(playerCards));
                console.log('Start of HIT ME House Cards: ' +  JSON.stringify(houseCards));
@@ -670,37 +684,139 @@ var newHand = function( cash ) {
 
                var standAction = function(playerCards, houseCards) {
 
-                    //Hide action Buttons
-                    document.getElementsByClassName('action-buttons')[0].style.display="none";
 
-                    /********************************
-                    * Now it's the House's turn
-                    *
-                    *******************************/
 
-                         //Show second hidden card once the dealer plays
-                         var secondHouseCardParent = document.getElementById('house-display-cards');
-                         var secondHouseCard = secondHouseCardParent.children[1];
-                         secondHouseCard.classList.remove("card-back");
+               // House too many cards problem is right HERE
+               // houseCards is getting the wrong variables from a past hand
+               // Need to make sure it's getting the correct cards
 
-                         document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePoints;
 
-                         console.log('BEFORE House Loop under 17 Pts: ' +  JSON.stringify(houseCards));
+               console.log('NEW TEST FUNCTION STAND House Cards SHOULD ONLY RUN ONCE: ' +  JSON.stringify(houseCards));
 
-                    }
+
+
+
+
+               //Hide action Buttons
+               document.getElementsByClassName('action-buttons')[0].style.display="none";
+               //document.getElementsByClassName('game-notices')[0].innerHTML = '<div id="status">Stand!</div>';
+
+               /********************************
+               * Now it's the House's turn
+               *
+               *******************************/
+
+                    //Show second hidden card once the dealer plays
+                    var secondHouseCardParent = document.getElementById('house-display-cards');
+                    var secondHouseCard = secondHouseCardParent.children[1];
+                    secondHouseCard.classList.remove("card-back");
+
+                    document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePoints;
+
+                    console.log('BEFORE House Loop under 17 Pts: ' +  JSON.stringify(houseCards));
+
+               for (; housePoints < 17; ) {
+
+                    console.log('START of House Loop under 17 Pts: ' +  JSON.stringify(houseCards));
+
+                    var newHouseCard = getCard();
+                    houseCards.push( newHouseCard );
+                    var newHouseCardValue = newHouseCard.value;
+
+                    housePoints = addCards( houseCards );
+
+                        // Aces Check
+                        if( (acesCheck(houseCards) === true) && (housePoints > 21) ) {
+                            console.log('House Aces? ' + acesCheck(houseCards));
+                            housePoints -= 10;
+                        }
+
+
+                    console.log('Updated House Point Total: ' + housePoints);
+                    console.log('Updated House Cards: ' +  JSON.stringify(houseCards));
+
+                    document.getElementById('house-total-points').innerHTML = 'Total points: ' + housePoints;
+
+                    // Display Card Image
+
+                            var newHouseCardName = null;
+
+                         //Determine red or black
+                         newHouseCardName = newHouseCard.name;
+                         if( newHouseCardName.includes('Hearts') || newHouseCardName.includes('Diamonds') ) {
+                              var cardClass = 'red';
+                         } else {
+                              var cardClass = 'black';
+                         }
+
+                    var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + newHouseCardName + ' (' + newHouseCardValue + ')<div class="card-symbols">' + newHouseCard.symbol + '</div></div>';
+                    document.getElementById('house-display-cards').innerHTML += displayCardImage;
+                    console.log('Displayed House Cards: ' +  JSON.stringify(newHouseCardName));
+
+                       /********************************
+                         * If player stands, see who won and update everything according
+                         *
+                         *******************************/
+
+                    //    if( housePoints >= 17 ) {
+                       //
+                    //         console.log(' ---------- HAND OVER -------------- ');
+                       //
+                       //
+                    //         // Process winner and add action buttons back in there
+                    //         standButton.removeEventListener( 'click', stand, false );
+                    //         var winner = determineWinner(playerPoints, housePoints);
+                    //         var message = handOverMessage(playerPoints, housePoints, bet);
+                    //         document.getElementsByClassName('game-notices')[0].innerHTML = message;
+                    //         cash = updateCash(winner, cash, bet);
+                    //         document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+                       //
+                    //         document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                    //         document.getElementById("cash-out-button").style.display="inline-block";
+                    //         document.getElementById("next-hand-button").style.display="inline-block";
+                       //
+                       //
+                       //
+                    //    }
+
+
+                  }
+
+
+                  if( housePoints >= 17 ) {
+
+                       console.log(' ---------- HAND OVER -------------- ');
+
+                       // Process winner and add action buttons back in there
+                       standButton.removeEventListener( 'click', stand, false );
+                       var winner = determineWinner(playerPoints, housePoints);
+                       var message = handOverMessage(playerPoints, housePoints, bet);
+                       document.getElementsByClassName('game-notices')[0].innerHTML = message;
+                       cash = updateCash(winner, cash, bet);
+                       document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+
+                       document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                       document.getElementById("cash-out-button").style.display="inline-block";
+                       document.getElementById("next-hand-button").style.display="inline-block";
+
+                  }
+
+            }
+
+            standAction(playerCards, houseCards);
 
                     //Let's determine who won the hand
-                    var winner = determineWinner(playerPoints, housePoints);
-
-                    var message = handOverMessage(playerPoints, housePoints, bet);
-                    document.getElementsByClassName('game-notices')[0].innerHTML = message;
-
-                    cash = updateCash(winner, cash, bet);
-                    document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
-
-                    document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
-                    document.getElementById("cash-out-button").style.display="inline-block";
-                    document.getElementById("next-hand-button").style.display="inline-block";
+                    // var winner = determineWinner(playerPoints, housePoints);
+                    //
+                    // var message = handOverMessage(playerPoints, housePoints, bet);
+                    // document.getElementsByClassName('game-notices')[0].innerHTML = message;
+                    //
+                    // cash = updateCash(winner, cash, bet);
+                    // document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+                    //
+                    // document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                    // document.getElementById("cash-out-button").style.display="inline-block";
+                    // document.getElementById("next-hand-button").style.display="inline-block";
 
                     // Check if the Game is Over
                     if( cash <= 0 ) {
