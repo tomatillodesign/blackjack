@@ -222,6 +222,49 @@ var determineWinner = function(playerPoints, housePoints) {
 
 };
 
+
+var updateCash = function(winner, cash, bet) {
+
+     // Update Cash
+     console.log('UPDATE CASH FUNCTION');
+     if( winner === 'Player' ) {
+
+          cash = updateCashWin(cash, bet);
+
+     } else if( winner === 'House' ) {
+
+          cash = updateCashLoss(cash, bet);
+
+     } else if( winner === 'Tie' ) {
+
+          cash = updateCashWin(cash, 0);
+
+     }
+
+     return cash;
+
+};
+
+
+var updateCashWin = function(cash, bet) {
+
+     cash += bet;
+     console.log('updateCashWin: ' + cash);
+     cashArray.push(cash);
+     return cash;
+
+}
+
+var updateCashLoss = function(cash, bet) {
+
+     cash -= bet;
+     console.log('updateCashLoss: ' + cash);
+     cashArray.push(cash);
+     return cash;
+};
+
+
+
 var handOverMessage = function(playerPoints, housePoints, bet) {
 
      var message;
@@ -232,7 +275,7 @@ var handOverMessage = function(playerPoints, housePoints, bet) {
      } else if ( housePoints > 21 && playerPoints <= 21) {
           message = '<div id="status">The House busted. You won $' + bet + '.</div>';
      } else if ( housePoints <= 21 && housePoints > playerPoints ) {
-          message = '<div id="status">The House won and you lost your bet of $' + bet + '.</div>';
+          message = '<div id="status">The House was closer to 21 and you lost your bet of $' + bet + '.</div>';
      } else if ( playerPoints < 21 && playerPoints > housePoints ){
           message = '<div id="status">You were closer to 21 than the House. You won $' + bet + '.</div>';
      } else if ( playerPoints === 21 && playerPoints > housePoints ){
@@ -260,7 +303,7 @@ var gameOver = function() {
 
      document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You have lost everything. Game Over!</div>';
 
-}
+};
 
 
 
@@ -285,6 +328,7 @@ var newHand = function( cash ) {
      document.getElementById("hit-me-button").style.display="none";
      document.getElementById("stand-button").style.display="none";
      document.getElementById("bet-amount-display").style.display="none";
+     document.getElementsByClassName('action-buttons')[0].style.display="none";
      document.getElementsByClassName('action-buttons')[1].style.display="none";
 
      //Show the bet amount
@@ -310,6 +354,7 @@ var newHand = function( cash ) {
           placeBet.style.display="none";
 
           console.log('Bet Amount: $' + bet);
+          document.getElementById("bet-amount-display").style.display="block";
           document.getElementById("bet-amount-display").innerHTML = 'Your bet: $' + bet;
 
 
@@ -468,6 +513,142 @@ var newHand = function( cash ) {
 
 
           /********************************
+          * Hit Me Functionality
+          *
+          *******************************/
+
+
+
+          var hitMeButton = document.getElementById("hit-me-button");
+          hitMeButton.addEventListener( 'click', hitMe, false );
+
+          console.log('Before HIT ME Player Cards: ' +  JSON.stringify(playerCards));
+          console.log('Before HIT ME House Cards: ' +  JSON.stringify(houseCards));
+
+          function hitMe(e) {
+
+               //event.preventDefault();
+
+               console.log('Start of HIT ME Player Cards: ' +  JSON.stringify(playerCards));
+               console.log('Start of HIT ME House Cards: ' +  JSON.stringify(houseCards));
+
+             //Get New Card
+                  var hitMeCard = null;
+                  hitMeCard = getCard();
+
+               playerCards.push( hitMeCard );
+
+               var hitMeCardValue = hitMeCard.value;
+
+               playerPoints = addCards( playerCards );
+
+               console.log('HIT ME TOTAL: ' + playerPoints);
+
+
+
+               // Display Card Image
+
+                    //Determine red or black
+                    var newCardName = hitMeCard.name;
+                    if( newCardName.includes('Hearts') || newCardName.includes('Diamonds') ) {
+                         var cardClass = 'red';
+                    } else {
+                         var cardClass = 'black';
+                    }
+
+                    console.log(hitMeCard);
+
+               var displayCardImage = '<div class="single-card-image ' + cardClass + '">' + hitMeCard.name + ' (' + hitMeCard.value + ')<div class="card-symbols">' + hitMeCard.symbol + '</div></div>';
+               document.getElementById('player-display-cards').innerHTML += displayCardImage;
+
+
+               //Aces Check
+               if( (acesCheck(playerCards) === true) && (playerPoints > 21) ) {
+                    console.log('Player Aces? ' + acesCheck(playerCards));
+                    playerPoints -= 10;
+               }
+
+               document.getElementById('player-total-points').innerHTML = 'Total points: ' + playerPoints;
+
+               console.log('Updated Player Point Total: ' + playerPoints);
+               console.log('Updated Player Cards: ' +  JSON.stringify(playerCards));
+
+               console.log('MIDDLE of HIT ME Player Cards: ' +  JSON.stringify(playerCards));
+               console.log('MIDDLE of HIT ME House Cards: ' +  JSON.stringify(houseCards));
+
+               if( playerPoints < 21 ) {
+                    return;
+               }
+
+               else if( playerPoints === 21 ) {
+
+                    console.log(' ---------- HAND OVER -------------- ');
+
+                    // Process winner and add action buttons back in there
+                    hitMeButton.removeEventListener( 'click', hitMe, false );
+                    var winner = determineWinner(playerPoints, housePoints);
+                    var message = handOverMessage(playerPoints, housePoints, bet);
+                    document.getElementsByClassName('game-notices')[0].innerHTML = message;
+                    cash = updateCash(winner, cash, bet);
+                    document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+
+                    document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                    document.getElementById("cash-out-button").style.display="inline-block";
+                    document.getElementById("next-hand-button").style.display="inline-block";
+
+                    console.log('END of HIT ME Player Cards - Player AT 21 loop: ' +  JSON.stringify(playerCards));
+                    console.log('END of HIT ME House Cards - House ??? 21 loop: ' +  JSON.stringify(houseCards));
+
+
+                    }
+
+                    // HAND IS OVER, Don't Allow hits if player is Busted
+                    else if( playerPoints > 21 ) {
+
+                         console.log(' ---------- HAND OVER -------------- ');
+
+                         hitMeButton.removeEventListener( 'click', hitMe, false );
+
+                         document.getElementsByClassName('action-buttons')[0].style.display="none";
+                         document.getElementById("hit-me-button").style.display="none";
+                         document.getElementById("stand-button").style.display="none";
+
+                         // Process winner and add action buttons back in there
+                         var winner = determineWinner(playerPoints, housePoints);
+                         var message = handOverMessage(playerPoints, housePoints, bet);
+                         document.getElementsByClassName('game-notices')[0].innerHTML = message;
+                         cash = updateCash(winner, cash, bet);
+                         document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+
+                         document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                         document.getElementById("cash-out-button").style.display="inline-block";
+                         document.getElementById("next-hand-button").style.display="inline-block";
+
+                         console.log('END of HIT ME Player Cards - Player over 21 loop: ' +  JSON.stringify(playerCards));
+                         console.log('END of HIT ME House Cards - House over 21 loop: ' +  JSON.stringify(houseCards));
+
+                         // Check if the Game is Over
+                         if( cash <= 0 ) {
+                              gameOver();
+                         }
+
+
+                    }
+
+                    console.log('END of HIT ME Player Cards: ' +  JSON.stringify(playerCards));
+                    console.log('END of HIT ME House Cards: ' +  JSON.stringify(houseCards));
+
+
+
+               }
+
+               console.log('Before STAND EVENT LISTENER House Cards: ' +  JSON.stringify(houseCards));
+
+
+
+
+
+          /********************************
           * Stand Functionality
           *
           *******************************/
@@ -480,8 +661,12 @@ var newHand = function( cash ) {
           function stand(e) {
 
                event.preventDefault();
+               hitMeButton.removeEventListener( 'click', hitMe, false );
                standButton.removeEventListener( 'click', stand, false );
                //hitMeButton.removeEventListener( 'click', hitMe, false );
+
+               document.getElementById("hit-me-button").style.display="none";
+               document.getElementById("stand-button").style.display="none";
 
                var standAction = function(playerCards, houseCards) {
 
@@ -508,18 +693,48 @@ var newHand = function( cash ) {
                     var winner = determineWinner(playerPoints, housePoints);
 
                     var message = handOverMessage(playerPoints, housePoints, bet);
-                    document.getElementsByClassName('game-notices')[0].innerHTML = message;   
+                    document.getElementsByClassName('game-notices')[0].innerHTML = message;
+
+                    cash = updateCash(winner, cash, bet);
+                    document.getElementById("cash").innerHTML = 'Your Cash: $' + cash;
+
+                    document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
+                    document.getElementById("cash-out-button").style.display="inline-block";
+                    document.getElementById("next-hand-button").style.display="inline-block";
+
+                    // Check if the Game is Over
+                    if( cash <= 0 ) {
+                         gameOver();
+                    }
 
                }
 
 
 
+               var nextHandButton = document.getElementById("next-hand-button");
+               nextHandButton.addEventListener( 'click', nextHand, false );
+
+               function nextHand( event ) {
+
+                    event.preventDefault();
+
+                    // Reset Everything
+                    document.getElementsByClassName('game-notices')[0].innerHTML = '';
+                    document.getElementsByClassName('action-buttons')[0].style.display="none";
+                    document.getElementById("next-hand-button").style.display="none";
+                    document.getElementById("cash-out-button").style.display="none";
+                    document.getElementById("bet-amount-display").style.display="none";
+                    placeBet.style.display="block";
+                    document.getElementById('player-display-cards').innerHTML = '';
+                    document.getElementById('house-display-cards').innerHTML = '';
+                    document.getElementById('player-total-points').innerHTML = '';
+                    document.getElementById('house-total-points').innerHTML = '';
+
+                    console.log("RESET");
+
+               }
 
 
-          // Check if the Game is Over
-          if( cash <= 0 ) {
-               gameOver();
-          }
 
      }
 
