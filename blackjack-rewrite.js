@@ -8,6 +8,7 @@ Let's Do This
 
      var playerName,
      cash = 1000,
+     startingCash = cash,
      bet,
      teachingMode,
      numberOfDecks,
@@ -854,6 +855,70 @@ var newHand = function( cash ) {
                     document.getElementById('house-total-points').innerHTML = '';
 
                     console.log("RESET");
+
+               }
+
+               /********************************
+               * Cash Out
+               *
+               *******************************/
+
+
+               var nextHandButton = document.getElementById("cash-out-button");
+               nextHandButton.addEventListener( 'click', cashOut, false );
+
+               function cashOut( event ) {
+
+                    event.preventDefault();
+
+                    //vars
+                    var winLose,
+                    totalWinnings,
+                    endgameMessage;
+
+                    endingCash = cash;
+
+                    if( endingCash > startingCash ) {
+
+                         winLose = 'won';
+                         totalWinnings = endingCash - startingCash;
+                         endgameMessage = '<div id="status">You\'ve cashed out, ' + playerName + ', thanks for playing.<br/>You started with $' + startingCash + ' and you won $' + totalWinnings + '. Now you\'ve got $' + cash + ' in your pocket.<br/>Great job!</div>';
+
+                    } else if( endingCash < startingCash ) {
+
+                         winLose = 'lost';
+                         totalWinnings = startingCash - endingCash;
+                         endgameMessage = '<div id="status">You\'ve cashed out, ' + playerName + ', thanks for playing.<br/>You started with $' + startingCash + ' and you lost $' + totalWinnings + '. Now you\'ve got $' + cash + ' in your pocket.<br/>Better luck next time!</div>';
+
+                    } else if( endingCash === startingCash ) {
+
+                         winLose = 'tied';
+                         endgameMessage = '<div id="status">You\'ve cashed out, ' + playerName + ', thanks for playing.<br/>You started with $' + startingCash + ' and you walked away with the same amount in your pocket.<br/>Play again soon!</div>';
+
+                    }
+
+
+
+                    // Reset Everything
+                    document.getElementsByClassName('game-notices')[0].innerHTML = endgameMessage;
+
+                    document.getElementsByClassName('game-notices')[0].innerHTML += '<br clear="all"><a href="#" id="reload-button" class="nice-button">Start Over</a>';
+
+                    document.getElementsByClassName('action-buttons')[0].style.display="none";
+                    document.getElementsByClassName('player-side')[0].style.display="none";
+                    document.getElementsByClassName('house-side')[0].style.display="none";
+                    document.getElementsByClassName('clearfix')[0].style.display="none";
+
+                    console.log("Cash Out");
+
+                         var reloadButton = document.getElementById("reload-button");
+                         reloadButton.addEventListener( 'click', cashOut, false );
+
+                         function cashOut( event ) {
+
+                              location.reload();
+
+                         }
 
                }
 
