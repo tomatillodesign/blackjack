@@ -19,7 +19,8 @@ Let's Do This
      housePoints,
      winner,
      playerDoubleDown,
-     cashArray = [1000];
+     cashArray = [1000],
+     checkWinner = false;
 
 //Let's get started - Player Name
      //playerName = window.prompt( 'Please enter your name:' );
@@ -217,6 +218,8 @@ var determineWinner = function(playerPoints, housePoints) {
      }
 
      console.log('And the winner is: ' + winner);
+
+     checkWinner = true;
 
      return winner;
 
@@ -538,7 +541,7 @@ var newHand = function( cash ) {
                // Remove Double Down Option if it was there in the first place
                if( (playerPoints === 9 || playerPoints === 10 || playerPoints === 11 ) && (cash >= bet*2) ) {
 
-                    doubleDown.removeEventListener( 'click', doubleDownUpdateBet, false );
+                    //doubleDown.removeEventListener( 'click', doubleDownUpdateBet, false );
                     document.getElementsByClassName('game-notices')[0].innerHTML = '';
 
                }
@@ -672,7 +675,11 @@ var newHand = function( cash ) {
 
           console.log('Right before STAND House Cards: ' +  JSON.stringify(houseCards));
 
+          checkWinner = false;
+
           function stand(e) {
+
+
 
                event.preventDefault();
                hitMeButton.removeEventListener( 'click', hitMe, false );
@@ -783,7 +790,7 @@ var newHand = function( cash ) {
                   }
 
 
-                  if( housePoints >= 17 ) {
+                  if( housePoints >= 17 && checkWinner === false ) {
 
                        console.log(' ---------- HAND OVER -------------- ');
 

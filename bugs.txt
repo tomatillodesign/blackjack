@@ -3,7 +3,8 @@
 Player starts with 2 aces, total score = 22 but should equal 12
 House draws Ace later, but it doesn't go down to 1, just stays at 11 and house Busts
 Fix Cash Out button which doesn't do anything yet
-
+Sometimes score/winner checks twice, so a losing $100 bet incorrectly deducts $200, same with winning bet
+House natural winning hand didn't deduct from player's cash
 
 
 
@@ -11,8 +12,7 @@ Fix Cash Out button which doesn't do anything yet
 
 Sometimes the House draws an extra card when it should have busted already
 Sometimes the Player draws an extra card when it should have only drawn one
-Sometimes score/winner checks twice, so a losing $100 bet incorrectly deducts $200
-House natural winning hand didn't deduct from player's cash
+
 
 
 *Definitely Fixed*
