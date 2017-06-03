@@ -341,7 +341,7 @@ var newHand = function( cash ) {
      var placeBet = document.getElementById("the-bet");
      placeBet.addEventListener( 'submit', returnBetAmount, false );
 
-     function returnBetAmount(e) {
+     function returnBetAmount(event) {
 
           event.preventDefault();
           var betAmount = document.getElementById( 'bet-amount' );
@@ -911,6 +911,24 @@ var newHand = function( cash ) {
 
                     console.log("Cash Out");
 
+                              // Set Local Storage of Score
+                              var rawTimeStamp = Date.now();
+
+                              var scoreData = {
+                                    playerName: playerName,
+                                    playerScore: cash,
+                                    timeStamp: rawTimeStamp
+                                  },
+                                  localData;
+
+                              localStorage.setItem( 'scoreData', JSON.stringify( scoreData ) );
+
+                              //localData = JSON.parse( localStorage.getItem( 'scoreData' ) );
+
+                              //console.log( localData );
+                              console.log( localStorage.getItem( 'scoreData' ) );
+
+                         // Start Over (Reload) Button
                          var reloadButton = document.getElementById("reload-button");
                          reloadButton.addEventListener( 'click', cashOut, false );
 
