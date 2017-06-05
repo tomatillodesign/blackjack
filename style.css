@@ -192,6 +192,12 @@ h2 {
      margin-top: 0px;
 }
 
+#cheat-mode-area a {
+     color: yellow;
+     text-decoration: none;
+     font-size: 14px;
+}
+
 /*.hit-me-button-area {
      float: left;
      margin-right: 20px;

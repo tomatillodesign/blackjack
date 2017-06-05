@@ -304,11 +304,108 @@ var gameOver = function() {
      document.getElementById("stand-button").style.display="none";
      document.getElementById("bet-amount-display").style.display="none";
      document.getElementsByClassName('action-buttons')[1].style.display="none";
+     document.getElementById("cheat-mode-area").style.display="none";
+     document.getElementById("cheat-mode-info").innerHTML = '<p>Thanks for playing!</p>';
 
      document.getElementsByClassName('game-notices')[0].innerHTML += '<div id="status">You have lost everything. Game Over!</div>';
 
 };
 
+
+var drawingTen = function(cards) {
+
+     var remainingCardValues = [];
+
+     var count = 0;
+     for(var i = 0; i < cards.length; ++i) {
+
+          var singleValue = cards[i].value;
+          remainingCardValues.push( singleValue );
+
+     };
+
+     for(var j = 0; j < remainingCardValues.length; ++j) {
+
+          if(remainingCardValues[j] === 10) {
+               count++;
+          }
+
+     };
+
+     var chance = Math.round((count/remainingCardValues.length)*100);
+
+     console.log( 'drawingTen: ' + chance );
+     return chance;
+
+
+}
+
+
+
+var drawingAce = function(cards) {
+
+     var remainingCardValues = [];
+
+     var count = 0;
+     for(var i = 0; i < cards.length; ++i) {
+
+          var singleValue = cards[i].value;
+          remainingCardValues.push( singleValue );
+
+     };
+
+     for(var j = 0; j < remainingCardValues.length; ++j) {
+
+          if(remainingCardValues[j] === 11) {
+               count++;
+          }
+
+     };
+
+     var chance = Math.round((count/remainingCardValues.length)*100);
+
+     console.log( 'drawingAce: ' + chance );
+     return chance;
+
+
+}
+
+
+
+
+var drawingBust = function(cards, playerPoints) {
+
+     var remainingCardValues = [];
+     var potentialBust = [];
+
+     var count = 0;
+     for(var i = 0; i < cards.length; ++i) {
+
+          var singleValue = cards[i].value;
+
+               if(singleValue === 11) {
+                    singleValue = 1;
+               }
+
+          remainingCardValues.push( singleValue );
+
+     };
+
+     for(var j = 0; j < remainingCardValues.length; ++j) {
+
+          if( (playerPoints + remainingCardValues[j]) > 21 ) {
+               count++;
+          }
+
+     };
+
+     var chance = Math.round((count/remainingCardValues.length)*100);
+
+     console.log( 'drawingAce: ' + chance );
+     return chance;
+
+
+}
 
 
 /********************************
@@ -334,6 +431,9 @@ var newHand = function( cash ) {
      document.getElementById("bet-amount-display").style.display="none";
      document.getElementsByClassName('action-buttons')[0].style.display="none";
      document.getElementsByClassName('action-buttons')[1].style.display="none";
+
+     document.getElementById('cheat-mode-info').style.display="none";
+     document.getElementById('cheat-mode-area').style.display="none";
 
      //Show the bet amount
      document.getElementById("bet-amount-display").style.display="block";
@@ -364,6 +464,8 @@ var newHand = function( cash ) {
 
           //Trying this with an external function instead
           dealHand();
+
+
 
           console.log('START of Loop');
           console.log('Cash: ' + cash);
@@ -426,7 +528,30 @@ var newHand = function( cash ) {
 
           }
 
+               /********************************
+                * Activate Cheat Mode (Percentages)
+                *
+                *******************************/
 
+               document.getElementById('cheat-mode-info').style.display="none";
+               document.getElementById('cheat-mode-area').style.display="block";
+
+               var button = document.getElementById("cheat-mode-toggle"),
+               paragraph = document.getElementById('cheat-mode-info');
+
+               button.addEventListener("click", function(event){
+                    event.preventDefault();
+                 if (paragraph.style.display == 'none') {
+                   paragraph.style.display = 'block';
+                 } else {
+                   paragraph.style.display = 'none';
+                 }
+               }, false);
+
+               document.getElementById('cards-remaining').innerHTML = 'Remaining Cards: ' + (cards.length);
+               document.getElementById('chance-of-bust').innerHTML = 'Chance of Bust: ' + drawingBust(cards, playerPoints) + '%';
+               document.getElementById('chance-of-ace').innerHTML = 'Chance of Ace: ' + drawingAce(cards) + '%';
+               document.getElementById('chance-of-ten').innerHTML = 'Chance of 10 points: ' + drawingTen(cards) + '%';
 
           /********************************
            * Check for Naturals
@@ -522,6 +647,8 @@ var newHand = function( cash ) {
 
 
 
+
+
           /********************************
           * Hit Me Functionality
           *
@@ -536,6 +663,28 @@ var newHand = function( cash ) {
           console.log('Before HIT ME House Cards: ' +  JSON.stringify(houseCards));
 
           function hitMe(e) {
+
+
+               var button = document.getElementById("cheat-mode-toggle"),
+               paragraph = document.getElementById('cheat-mode-info');
+
+               button.addEventListener("click", function(event){
+                    event.preventDefault();
+                 if (paragraph.style.display == 'none') {
+                   paragraph.style.display = 'block';
+                 } else {
+                   paragraph.style.display = 'none';
+                 }
+               }, false);
+
+
+                    //Show Cheat Mode Stats
+                    document.getElementById('cards-remaining').innerHTML = 'Remaining Cards: ' + (cards.length);
+                    document.getElementById('chance-of-bust').innerHTML = 'Chance of Bust: ' + drawingBust(cards, playerPoints) + '%';
+                    document.getElementById('chance-of-ace').innerHTML = 'Chance of Ace: ' + drawingAce(cards) + '%';
+                    document.getElementById('chance-of-ten').innerHTML = 'Chance of 10 points: ' + drawingTen(cards) + '%';
+
+
 
                //event.preventDefault();
 
@@ -561,6 +710,26 @@ var newHand = function( cash ) {
                playerPoints = addCards( playerCards );
 
                console.log('HIT ME TOTAL: ' + playerPoints);
+
+               var button = document.getElementById("cheat-mode-toggle"),
+               paragraph = document.getElementById('cheat-mode-info');
+
+               button.addEventListener("click", function(event){
+                    event.preventDefault();
+                 if (paragraph.style.display == 'none') {
+                   paragraph.style.display = 'block';
+                 } else {
+                   paragraph.style.display = 'none';
+                 }
+               }, false);
+
+
+               //Show Cheat Mode Stats
+               document.getElementById('cards-remaining').innerHTML = 'Remaining Cards: ' + (cards.length);
+               document.getElementById('chance-of-bust').innerHTML = 'Chance of Bust: ' + drawingBust(cards, playerPoints) + '%';
+               document.getElementById('chance-of-ace').innerHTML = 'Chance of Ace: ' + drawingAce(cards) + '%';
+               document.getElementById('chance-of-ten').innerHTML = 'Chance of 10 points: ' + drawingTen(cards) + '%';
+
 
 
 
@@ -613,6 +782,7 @@ var newHand = function( cash ) {
                     document.getElementsByClassName('action-buttons')[1].style.display="inline-block";
                     document.getElementById("cash-out-button").style.display="inline-block";
                     document.getElementById("next-hand-button").style.display="inline-block";
+                    document.getElementById('cheat-mode-info').style.display="none";
 
                     console.log('END of HIT ME Player Cards - Player AT 21 loop: ' +  JSON.stringify(playerCards));
                     console.log('END of HIT ME House Cards - House ??? 21 loop: ' +  JSON.stringify(houseCards));
@@ -630,6 +800,8 @@ var newHand = function( cash ) {
                          document.getElementsByClassName('action-buttons')[0].style.display="none";
                          document.getElementById("hit-me-button").style.display="none";
                          document.getElementById("stand-button").style.display="none";
+                         document.getElementById('cheat-mode-area').style.display="none";
+                         document.getElementById('cheat-mode-info').style.display="none";
 
                          // Process winner and add action buttons back in there
                          var winner = determineWinner(playerPoints, housePoints);
@@ -663,7 +835,17 @@ var newHand = function( cash ) {
                console.log('Before STAND EVENT LISTENER House Cards: ' +  JSON.stringify(houseCards));
 
 
+               var button = document.getElementById("cheat-mode-toggle"),
+               paragraph = document.getElementById('cheat-mode-info');
 
+               button.addEventListener("click", function(event){
+                    event.preventDefault();
+                if (paragraph.style.display == 'none') {
+                  paragraph.style.display = 'block';
+                } else {
+                  paragraph.style.display = 'none';
+                }
+               }, false);
 
 
           /********************************
@@ -676,6 +858,8 @@ var newHand = function( cash ) {
 
           console.log('Right before STAND House Cards: ' +  JSON.stringify(houseCards));
 
+
+
           checkWinner = false;
 
           function stand(e) {
@@ -683,6 +867,10 @@ var newHand = function( cash ) {
 
 
                event.preventDefault();
+
+               document.getElementById('cheat-mode-info').style.display="none";
+               document.getElementById('cheat-mode-area').style.display="none";
+
                hitMeButton.removeEventListener( 'click', hitMe, false );
                standButton.removeEventListener( 'click', stand, false );
                //hitMeButton.removeEventListener( 'click', hitMe, false );
@@ -909,6 +1097,10 @@ var newHand = function( cash ) {
                     document.getElementsByClassName('house-side')[0].style.display="none";
                     document.getElementsByClassName('clearfix')[0].style.display="none";
 
+                    document.getElementById("cheat-mode-area").style.display="none";
+                    document.getElementById("cheat-mode-info").style.display="block";
+                    document.getElementById("cheat-mode-info").innerHTML = '<p>Thanks for playing!</p>';
+
                     console.log("Cash Out");
 
                               // Set Local Storage of Score
@@ -949,4 +1141,16 @@ var newHand = function( cash ) {
 if( cash > 0 ) {
      newHand( cash );
      console.log('START GAME');
+}
+
+
+
+
+function toggleCheatMode() {
+    var x = document.getElementById('cheat-mode-info');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
 }
